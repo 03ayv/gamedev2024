@@ -11,6 +11,8 @@ namespace project
 
         //leshy leaf sprite
         private Texture2D texture;
+        private Rectangle deelRectangle;
+        private int schuifOp_X = 0;
 
         public Game1()
         {
@@ -22,6 +24,9 @@ namespace project
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+
+            //leshy leaf sprite
+            deelRectangle = new Rectangle(schuifOp_X, 32,32,32);
 
             base.Initialize();
         }
@@ -54,8 +59,14 @@ namespace project
 
             //leshy leaf sprite
             _spriteBatch.Begin();
-            _spriteBatch.Draw(texture, new Vector2(10,10), Color.White);
+            _spriteBatch.Draw(texture, new Vector2(10,10), deelRectangle, Color.White);
             _spriteBatch.End();
+
+            //leshyleaf walking animation
+            schuifOp_X += 32;
+            if (schuifOp_X > 256)
+                schuifOp_X = 0;
+            deelRectangle.X = schuifOp_X;
 
             base.Draw(gameTime);
         }
