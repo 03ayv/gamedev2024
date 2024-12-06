@@ -13,8 +13,9 @@ namespace project
 {
     public class LeshyLeaf: IGameObject
     {
-        Texture2D leshyLeafTexture;
-        Animation walking;
+        private Texture2D leshyLeafTexture;
+        private Animation walking;
+        private Vector2 position;
         public LeshyLeaf(Texture2D texture)
         {
             leshyLeafTexture = texture;
@@ -27,6 +28,8 @@ namespace project
             walking.AddFrame(new AnimationFrame(new Rectangle(160, 40, 32, 32)));
             walking.AddFrame(new AnimationFrame(new Rectangle(192, 40, 32, 32)));
             walking.AddFrame(new AnimationFrame(new Rectangle(224, 40, 32, 32)));
+
+            position = new Vector2(0, 300);
         }
 
         public void Update(GameTime gameTime)
@@ -40,7 +43,7 @@ namespace project
             float scale = 4f;
 
             //walking animation
-            spriteBatch.Draw(leshyLeafTexture, new Vector2(10, 10), walking.CurrentFrame.SourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(leshyLeafTexture, position, walking.CurrentFrame.SourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
         }
     }
 }
