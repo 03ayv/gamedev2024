@@ -14,29 +14,33 @@ namespace project
     public class LeshyLeaf: IGameObject
     {
         Texture2D leshyLeafTexture;
-        Animation animation;
+        Animation walking;
         public LeshyLeaf(Texture2D texture)
         {
             leshyLeafTexture = texture;
-            animation = new Animation();
-            animation.AddFrame(new AnimationFrame(new Rectangle(0,32,32,32)));
-            animation.AddFrame(new AnimationFrame(new Rectangle(32,32, 32, 32)));
-            animation.AddFrame(new AnimationFrame(new Rectangle(64, 32, 32, 32)));
-            animation.AddFrame(new AnimationFrame(new Rectangle(96, 32, 32, 32)));
-            animation.AddFrame(new AnimationFrame(new Rectangle(128, 32, 32, 32)));
-            animation.AddFrame(new AnimationFrame(new Rectangle(160, 32, 32, 32)));
-            animation.AddFrame(new AnimationFrame(new Rectangle(192, 32, 32, 32)));
-            animation.AddFrame(new AnimationFrame(new Rectangle(224, 32, 32, 32)));
+            walking = new Animation();
+            walking.AddFrame(new AnimationFrame(new Rectangle(0,40,32,32)));
+            walking.AddFrame(new AnimationFrame(new Rectangle(32,40, 32, 32)));
+            walking.AddFrame(new AnimationFrame(new Rectangle(64, 40, 32, 32)));
+            walking.AddFrame(new AnimationFrame(new Rectangle(96, 40, 32, 32)));
+            walking.AddFrame(new AnimationFrame(new Rectangle(128, 40, 32, 32)));
+            walking.AddFrame(new AnimationFrame(new Rectangle(160, 40, 32, 32)));
+            walking.AddFrame(new AnimationFrame(new Rectangle(192, 40, 32, 32)));
+            walking.AddFrame(new AnimationFrame(new Rectangle(224, 40, 32, 32)));
         }
 
         public void Update(GameTime gameTime)
         {
-            animation.Update(gameTime);
+            walking.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(leshyLeafTexture, new Vector2(10, 10), animation.CurrentFrame.SourceRectangle, Color.White);
+            //adjust size (1.0f = original size)
+            float scale = 4f;
+
+            //walking animation
+            spriteBatch.Draw(leshyLeafTexture, new Vector2(10, 10), walking.CurrentFrame.SourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
         }
     }
 }
