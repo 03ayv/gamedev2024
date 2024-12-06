@@ -60,7 +60,7 @@ namespace project
             GraphicsDevice.Clear(Color.RosyBrown);
 
             // TODO: Add your drawing code here
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
             leshyLeaf.Draw(_spriteBatch);
 
