@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace project
 {
@@ -10,9 +11,8 @@ namespace project
         private SpriteBatch _spriteBatch;
 
         //leshy leaf sprite
-        private Texture2D texture;
-        private Rectangle deelRectangle;
-        private int schuifOp_X = 0;
+        private Texture2D leshyLeafTexture;
+        LeshyLeaf leshyLeaf;
 
         public Game1()
         {
@@ -25,9 +25,6 @@ namespace project
         {
             // TODO: Add your initialization logic here
 
-            //leshy leaf sprite
-            deelRectangle = new Rectangle(schuifOp_X, 32,32,32);
-
             base.Initialize();
         }
 
@@ -37,8 +34,14 @@ namespace project
 
             // TODO: use this.Content to load your game content here
 
-            //leshy leaf sprite
-            texture = Content.Load<Texture2D>("LeshyLeaf");
+            //game object textures
+            leshyLeafTexture = Content.Load<Texture2D>("LeshyLeaf");
+            InitializeGameObjects();
+        }
+
+        private void InitializeGameObjects()
+        {
+            leshyLeaf = new LeshyLeaf(leshyLeafTexture);
         }
 
         protected override void Update(GameTime gameTime)
@@ -47,6 +50,7 @@ namespace project
                 Exit();
 
             // TODO: Add your update logic here
+            leshyLeaf.Update();
 
             base.Update(gameTime);
         }
@@ -56,17 +60,12 @@ namespace project
             GraphicsDevice.Clear(Color.RosyBrown);
 
             // TODO: Add your drawing code here
-
-            //leshy leaf sprite
             _spriteBatch.Begin();
-            _spriteBatch.Draw(texture, new Vector2(10,10), deelRectangle, Color.White);
-            _spriteBatch.End();
 
-            //leshyleaf walking animation
-            schuifOp_X += 32;
-            if (schuifOp_X > 256)
-                schuifOp_X = 0;
-            deelRectangle.X = schuifOp_X;
+            leshyLeaf.Draw(_spriteBatch);
+
+            _spriteBatch.End();
+            
 
             base.Draw(gameTime);
         }
