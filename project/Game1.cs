@@ -50,7 +50,7 @@ namespace project
                 Exit();
 
             // TODO: Add your update logic here
-            leshyLeaf.Update();
+            leshyLeaf.Update(gameTime);
 
             base.Update(gameTime);
         }

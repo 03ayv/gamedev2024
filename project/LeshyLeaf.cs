@@ -27,12 +27,11 @@ namespace project
             animation.AddFrame(new AnimationFrame(new Rectangle(160, 32, 32, 32)));
             animation.AddFrame(new AnimationFrame(new Rectangle(192, 32, 32, 32)));
             animation.AddFrame(new AnimationFrame(new Rectangle(224, 32, 32, 32)));
-            animation.AddFrame(new AnimationFrame(new Rectangle(256, 32, 32, 32)));
         }
 
-        public void Update()
+        public void Update(GameTime gameTime)
         {
-            animation.Update();
+            animation.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
