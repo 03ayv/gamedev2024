@@ -40,5 +40,10 @@ namespace project
             //walking animation
             spriteBatch.Draw(dragonflyTexture, position, flying.CurrentFrame.SourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.FlipHorizontally, 0f);
         }
+
+        public Rectangle GetBounds()
+        {
+            return new Rectangle((int)position.X, (int)position.Y, 30, 30);
+        }
     }
 }

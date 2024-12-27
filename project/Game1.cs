@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using project.Input;
+using SharpDX.Direct2D1.Effects;
 using System;
 
 namespace project
@@ -27,6 +28,10 @@ namespace project
         private Texture2D squirrelTexture;
         Squirrel squirrel;
 
+        //game over
+        private bool gameOver = false;
+        private Color backgroundColor = Color.RosyBrown;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -36,16 +41,12 @@ namespace project
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
 
             //game object textures
             leshyLeafTexture = Content.Load<Texture2D>("LeshyLeaf");
@@ -68,18 +69,29 @@ namespace project
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-            leshyLeaf.Update(gameTime);
-            porcupine.Update(gameTime);
-            dragonfly.Update(gameTime);
-            squirrel.Update(gameTime);
+            if (!gameOver)
+            {
+                leshyLeaf.Update(gameTime);
+                porcupine.Update(gameTime);
+                dragonfly.Update(gameTime);
+                squirrel.Update(gameTime);
+
+                // Check collisions
+                if (leshyLeaf.GetBounds().Intersects(porcupine.GetBounds()) ||
+                    leshyLeaf.GetBounds().Intersects(dragonfly.GetBounds()) ||
+                    leshyLeaf.GetBounds().Intersects(squirrel.GetBounds()))
+                {
+                    gameOver = true;
+                    backgroundColor = Color.DarkRed;
+                }
+            }
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.RosyBrown);
+            GraphicsDevice.Clear(backgroundColor);
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
