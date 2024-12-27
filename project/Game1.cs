@@ -32,6 +32,9 @@ namespace project
         private bool gameOver = false;
         private Color backgroundColor = Color.RosyBrown;
 
+        //camera
+        private Vector2 cameraPosition;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -93,8 +96,13 @@ namespace project
         {
             GraphicsDevice.Clear(backgroundColor);
 
-            // TODO: Add your drawing code here
-            _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            //camera position centers leshyleaf horizontally
+            cameraPosition = new Vector2(leshyLeaf.GetBounds().Center.X - GraphicsDevice.Viewport.Width / 6, 0);
+
+            //camera transform matrix
+            Matrix cameraTransform = Matrix.CreateTranslation(-cameraPosition.X, -cameraPosition.Y, 0);
+
+            _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: cameraTransform);
 
             leshyLeaf.Draw(_spriteBatch);
             porcupine.Draw(_spriteBatch);
