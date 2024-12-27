@@ -38,7 +38,7 @@ namespace project
             float scale = 3f;
 
             //walking animation
-            spriteBatch.Draw(dragonflyTexture, position, flying.CurrentFrame.SourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(dragonflyTexture, position, flying.CurrentFrame.SourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.FlipHorizontally, 0f);
         }
     }
 }
