@@ -16,6 +16,8 @@ namespace project
         private Texture2D squirrelTexture;
         private Animation walking;
         private Vector2 position;
+        private Vector2 speed;
+
         public Squirrel(Texture2D texture)
         {
             squirrelTexture = texture;
@@ -29,11 +31,32 @@ namespace project
             walking.AddFrame(new AnimationFrame(new Rectangle(192, 64, 32, 32)));
 
             position = new Vector2(500, 300);
+            speed = new Vector2(-2, 0);
         }
 
         public void Update(GameTime gameTime)
         {
+            Move();
             walking.Update(gameTime);
+        }
+        private void Move()
+        {
+            position += speed;
+
+            //speed += acceleration;
+
+            /*
+            if(position.X>600 || position.X < 0)
+            {
+                speed.X *= -1;
+                //acceleration.X *= -1;
+            }
+            if (position.Y > 400 || position.Y < 0)
+            {
+                speed.Y *= -1;
+                //acceleration *= -1;
+            }
+            */
         }
 
         public void Draw(SpriteBatch spriteBatch)

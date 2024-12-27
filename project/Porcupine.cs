@@ -15,6 +15,11 @@ namespace project
         private Texture2D porcupineTexture;
         private Animation walking;
         private Vector2 position;
+        private Vector2 speed;
+
+        //set which side to face
+        private bool isFacingRight = false;
+
         public Porcupine(Texture2D texture)
         {
             porcupineTexture = texture;
@@ -26,11 +31,30 @@ namespace project
             walking.AddFrame(new AnimationFrame(new Rectangle(128, 0, 32, 32)));
 
             position = new Vector2(200, 300);
+            speed = new Vector2(-1, 0);
         }
 
         public void Update(GameTime gameTime)
         {
+            Move();
             walking.Update(gameTime);
+        }
+        private void Move()
+        {
+            position += speed;
+
+            if (position.X > 400 || position.X < 200)
+            {
+                speed.X *= -1;
+                isFacingRight = speed.X > 0;
+                //acceleration.X *= -1;
+            }
+
+            if (position.Y > 400 || position.Y < 0)
+            {
+                speed.Y *= -1;
+                //acceleration *= -1;
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -38,8 +62,10 @@ namespace project
             //adjust size (1.0f = original size)
             float scale = 3f;
 
+            //set which side to face
+            var effects = isFacingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             //walking animation
-            spriteBatch.Draw(porcupineTexture, position, walking.CurrentFrame.SourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.FlipHorizontally, 0f);
+            spriteBatch.Draw(porcupineTexture, position, walking.CurrentFrame.SourceRectangle, Color.White, 0f, Vector2.Zero, scale, effects, 0f);
         }
 
         public Rectangle GetBounds()

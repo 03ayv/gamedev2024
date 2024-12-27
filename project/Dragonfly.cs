@@ -15,6 +15,15 @@ namespace project
         private Texture2D dragonflyTexture;
         private Animation flying;
         private Vector2 position;
+        private Vector2 speed;
+        //private Vector2 acceleration;
+
+        //fly up and down
+        private float originalY;
+        private float time = 0f;  //time sine wave
+        private float amplitude = 20f;  //distance
+        private float frequency = 2f;   //speed
+
         public Dragonfly(Texture2D texture)
         {
             dragonflyTexture = texture;
@@ -25,11 +34,22 @@ namespace project
             flying.AddFrame(new AnimationFrame(new Rectangle(96, 0, 32, 32)));
 
             position = new Vector2(400, 100);
+            speed = new Vector2(-1, 0);
+            originalY = position.Y;
+            //acceleration = new Vector2(0.1f, 0.1f);
         }
 
         public void Update(GameTime gameTime)
         {
+            Move();
             flying.Update(gameTime);
+        }
+
+        private void Move()
+        {
+            time += 0.05f;
+            position.Y = originalY + (float)(Math.Sin(time * frequency) * amplitude);
+
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -43,7 +63,7 @@ namespace project
 
         public Rectangle GetBounds()
         {
-            return new Rectangle((int)position.X, (int)position.Y, 30, 30);
+            return new Rectangle((int)position.X, (int)position.Y, 30, 31);
         }
     }
 }
