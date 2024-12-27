@@ -20,12 +20,19 @@ namespace project
         private Animation walking;
         private Vector2 position;
 
-        //movement
-        private Vector2 speed;
-        private Vector2 acceleration;
-
         //input
         IInputReader inputReader;
+
+        //jump
+        private Vector2 velocity;
+        private bool isJumping;
+        private float gravity = 0.5f;
+        private float jumpForce = -8f;
+        private float groundLevel;
+
+        //double jump
+        private int jumpCount = 0;
+        private const int MAX_JUMPS = 2;
 
         public LeshyLeaf(Texture2D texture, IInputReader inputReader)
         {
@@ -42,6 +49,10 @@ namespace project
 
             position = new Vector2(0, 300);
 
+            //jump
+            velocity = Vector2.Zero;
+            groundLevel = 300;
+
             //read input
             this.inputReader = inputReader;
         }
@@ -52,7 +63,23 @@ namespace project
             direction *= 4; //speed of keyboard movement
             position += direction;
 
-            //Move(GetMouseState());
+            //jumping
+            if (direction.Y < 0 && !isJumping)
+            {
+                velocity.Y = jumpForce;
+                isJumping = true;
+            }
+            //gravity
+            velocity.Y += gravity;
+            position.Y += velocity.Y;
+            //ground collision
+            if (position.Y >= groundLevel)
+            {
+                position.Y = groundLevel;
+                velocity.Y = 0;
+                isJumping = false;
+            }
+
             walking.Update(gameTime);
         }
         public void Draw(SpriteBatch spriteBatch)
