@@ -35,7 +35,7 @@ namespace project
         public void Draw(SpriteBatch spriteBatch)
         {
             //adjust size (1.0f = original size)
-            float scale = 4f;
+            float scale = 3f;
 
             //walking animation
             spriteBatch.Draw(dragonflyTexture, position, flying.CurrentFrame.SourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);

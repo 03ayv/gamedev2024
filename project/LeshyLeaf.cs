@@ -1,8 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using project.Animations;
+using project.Input;
 using project.Interfaces;
 using SharpDX.Direct3D9;
+using SharpDX.DXGI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +19,15 @@ namespace project
         private Texture2D leshyLeafTexture;
         private Animation walking;
         private Vector2 position;
-        public LeshyLeaf(Texture2D texture)
+
+        //movement
+        private Vector2 speed;
+        private Vector2 acceleration;
+
+        //input
+        IInputReader inputReader;
+
+        public LeshyLeaf(Texture2D texture, IInputReader inputReader)
         {
             leshyLeafTexture = texture;
             walking = new Animation();
@@ -30,13 +41,20 @@ namespace project
             walking.AddFrame(new AnimationFrame(new Rectangle(224, 40, 32, 32)));
 
             position = new Vector2(0, 300);
+
+            //read input
+            this.inputReader = inputReader;
         }
 
         public void Update(GameTime gameTime)
         {
+            var direction = inputReader.ReadInput();
+            direction *= 4; //speed of keyboard movement
+            position += direction;
+
+            //Move(GetMouseState());
             walking.Update(gameTime);
         }
-
         public void Draw(SpriteBatch spriteBatch)
         {
             //adjust size (1.0f = original size)

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using project.Input;
 using System;
 
 namespace project
@@ -56,7 +57,7 @@ namespace project
 
         private void InitializeGameObjects()
         {
-            leshyLeaf = new LeshyLeaf(leshyLeafTexture);
+            leshyLeaf = new LeshyLeaf(leshyLeafTexture, new KeyboardReader());
             porcupine = new Porcupine(porcupineTexture);
             dragonfly = new Dragonfly(dragonflyTexture);
             squirrel = new Squirrel(squirrelTexture);
