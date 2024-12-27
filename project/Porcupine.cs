@@ -6,10 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using project.Interfaces;
 
 namespace project
 {
-    public class Porcupine
+    public class Porcupine: IGameObject
     {
         private Texture2D porcupineTexture;
         private Animation walking;

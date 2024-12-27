@@ -22,6 +22,10 @@ namespace project
         private Texture2D dragonflyTexture;
         Dragonfly dragonfly;
 
+        //squirrel sprite
+        private Texture2D squirrelTexture;
+        Squirrel squirrel;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -46,6 +50,7 @@ namespace project
             leshyLeafTexture = Content.Load<Texture2D>("LeshyLeaf");
             porcupineTexture = Content.Load<Texture2D>("Porcupine");
             dragonflyTexture = Content.Load<Texture2D>("Dragonfly");
+            squirrelTexture = Content.Load<Texture2D>("Squirrel");
             InitializeGameObjects();
         }
 
@@ -54,6 +59,7 @@ namespace project
             leshyLeaf = new LeshyLeaf(leshyLeafTexture);
             porcupine = new Porcupine(porcupineTexture);
             dragonfly = new Dragonfly(dragonflyTexture);
+            squirrel = new Squirrel(squirrelTexture);
         }
 
         protected override void Update(GameTime gameTime)
@@ -65,6 +71,7 @@ namespace project
             leshyLeaf.Update(gameTime);
             porcupine.Update(gameTime);
             dragonfly.Update(gameTime);
+            squirrel.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -79,6 +86,7 @@ namespace project
             leshyLeaf.Draw(_spriteBatch);
             porcupine.Draw(_spriteBatch);
             dragonfly.Draw(_spriteBatch);
+            squirrel.Draw(_spriteBatch);
 
             _spriteBatch.End();
             

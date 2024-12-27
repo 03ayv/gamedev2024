@@ -1,4 +1,5 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/Users/03ayv/Documents/GameDev2024/project/project/Content/Dragonfly.png","C:/Users/03ayv/Documents/GameDev2024/project/project/Content/bin/Windows/Dragonfly.xnb","TextureProcessor","Texture2DContent",35127,114773,0.0959625
-"C:/Users/03ayv/Documents/GameDev2024/project/project/Content/LeshyLeaf.png","C:/Users/03ayv/Documents/GameDev2024/project/project/Content/bin/Windows/LeshyLeaf.xnb","TextureProcessor","Texture2DContent",40393,196693,0.0086138
-"C:/Users/03ayv/Documents/GameDev2024/project/project/Content/Porcupine.png","C:/Users/03ayv/Documents/GameDev2024/project/project/Content/bin/Windows/Porcupine.xnb","TextureProcessor","Texture2DContent",47558,102485,0.0040248
+"C:/Users/03ayv/Documents/GameDev2024/project/project/Content/Dragonfly.png","C:/Users/03ayv/Documents/GameDev2024/project/project/Content/bin/Windows/Dragonfly.xnb","TextureProcessor","Texture2DContent",35127,114773,0.0988704
+"C:/Users/03ayv/Documents/GameDev2024/project/project/Content/LeshyLeaf.png","C:/Users/03ayv/Documents/GameDev2024/project/project/Content/bin/Windows/LeshyLeaf.xnb","TextureProcessor","Texture2DContent",40393,196693,0.0104494
+"C:/Users/03ayv/Documents/GameDev2024/project/project/Content/Porcupine.png","C:/Users/03ayv/Documents/GameDev2024/project/project/Content/bin/Windows/Porcupine.xnb","TextureProcessor","Texture2DContent",47558,102485,0.0071296
+"C:/Users/03ayv/Documents/GameDev2024/project/project/Content/Squirrel.png","C:/Users/03ayv/Documents/GameDev2024/project/project/Content/bin/Windows/Squirrel.xnb","TextureProcessor","Texture2DContent",37031,229461,0.0079876

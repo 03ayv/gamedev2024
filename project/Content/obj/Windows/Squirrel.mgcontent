@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/Users/03ayv/Documents/GameDev2024/project/project/Content/Dragonfly.png</SourceFile>
-  <SourceTime>2024-12-27T15:58:03.9347975+01:00</SourceTime>
-  <DestFile>C:/Users/03ayv/Documents/GameDev2024/project/project/Content/bin/Windows/Dragonfly.xnb</DestFile>
-  <DestTime>2024-12-27T16:40:55.249051+01:00</DestTime>
+  <SourceFile>C:/Users/03ayv/Documents/GameDev2024/project/project/Content/Squirrel.png</SourceFile>
+  <SourceTime>2024-12-27T16:39:57.3239799+01:00</SourceTime>
+  <DestFile>C:/Users/03ayv/Documents/GameDev2024/project/project/Content/bin/Windows/Squirrel.xnb</DestFile>
+  <DestTime>2024-12-27T16:40:55.2890905+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2022-07-26T13:44:56+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

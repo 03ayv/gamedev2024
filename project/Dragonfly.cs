@@ -6,10 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using project.Interfaces;
 
 namespace project
 {
-    public class Dragonfly
+    public class Dragonfly: IGameObject
     {
         private Texture2D dragonflyTexture;
         private Animation flying;
