@@ -10,6 +10,7 @@ namespace project.Input
 {
     public class KeyboardReader : IInputReader
     {
+        private KeyboardState previousState;
         public Vector2 ReadInput()
         {
             var direction = Vector2.Zero;
@@ -21,11 +22,9 @@ namespace project.Input
             if (state.IsKeyDown(Keys.Right))
                 direction = new Vector2(1, 0);
 
-            if (state.IsKeyDown(Keys.Up))
+            if (state.IsKeyDown(Keys.Up) && !previousState.IsKeyDown(Keys.Up))
                 direction.Y = -1;
-
-            if (state.IsKeyDown(Keys.Up))
-                direction.Y = -1;
+            previousState = state;
 
             return direction;
         }

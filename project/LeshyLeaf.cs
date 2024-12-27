@@ -26,8 +26,8 @@ namespace project
         //jump
         private Vector2 velocity;
         private bool isJumping;
-        private float gravity = 0.5f;
-        private float jumpForce = -8f;
+        private float gravity = 0.6f;
+        private float jumpForce = -11f;
         private float groundLevel;
 
         //double jump
@@ -64,10 +64,11 @@ namespace project
             position += direction;
 
             //jumping
-            if (direction.Y < 0 && !isJumping)
+            if (direction.Y < 0 && jumpCount < MAX_JUMPS)
             {
                 velocity.Y = jumpForce;
                 isJumping = true;
+                jumpCount++;
             }
             //gravity
             velocity.Y += gravity;
@@ -78,6 +79,7 @@ namespace project
                 position.Y = groundLevel;
                 velocity.Y = 0;
                 isJumping = false;
+                jumpCount = 0;
             }
 
             walking.Update(gameTime);
