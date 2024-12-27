@@ -37,6 +37,9 @@ namespace project
         private int jumpCount = 0;
         private const int MAX_JUMPS = 2;
 
+        //set which side to face
+        private bool isFacingRight = true;
+
         public LeshyLeaf(Texture2D texture, IInputReader inputReader)
         {
             leshyLeafTexture = texture;
@@ -80,6 +83,12 @@ namespace project
             direction *= 4; //speed of keyboard movement
             position += direction;
 
+            //set which side to face
+            if (direction.X < 0)
+                isFacingRight = false;
+            else if (direction.X > 0)
+                isFacingRight = true;
+
             //switch between animations
             if (direction.X != 0)
             {
@@ -116,8 +125,10 @@ namespace project
             //adjust size (1.0f = original size)
             float scale = 4f;
 
-            //walking animation
-            spriteBatch.Draw(leshyLeafTexture, position, currentAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            //set which side to face
+            var effects = isFacingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            //animation
+            spriteBatch.Draw(leshyLeafTexture, position, currentAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, Vector2.Zero, scale, effects, 0f);
         }
     }
 }
