@@ -18,6 +18,10 @@ namespace project
         private Texture2D porcupineTexture;
         Porcupine porcupine;
 
+        //dragonfly sprite
+        private Texture2D dragonflyTexture;
+        Dragonfly dragonfly;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -41,6 +45,7 @@ namespace project
             //game object textures
             leshyLeafTexture = Content.Load<Texture2D>("LeshyLeaf");
             porcupineTexture = Content.Load<Texture2D>("Porcupine");
+            dragonflyTexture = Content.Load<Texture2D>("Dragonfly");
             InitializeGameObjects();
         }
 
@@ -48,6 +53,7 @@ namespace project
         {
             leshyLeaf = new LeshyLeaf(leshyLeafTexture);
             porcupine = new Porcupine(porcupineTexture);
+            dragonfly = new Dragonfly(dragonflyTexture);
         }
 
         protected override void Update(GameTime gameTime)
@@ -58,6 +64,7 @@ namespace project
             // TODO: Add your update logic here
             leshyLeaf.Update(gameTime);
             porcupine.Update(gameTime);
+            dragonfly.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -71,10 +78,10 @@ namespace project
 
             leshyLeaf.Draw(_spriteBatch);
             porcupine.Draw(_spriteBatch);
+            dragonfly.Draw(_spriteBatch);
 
             _spriteBatch.End();
             
-
             base.Draw(gameTime);
         }
     }

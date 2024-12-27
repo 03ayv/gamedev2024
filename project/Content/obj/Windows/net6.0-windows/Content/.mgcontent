@@ -4,10 +4,12 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
+    <File>C:/Users/03ayv/Documents/GameDev2024/project/project/Content/Dragonfly.png</File>
     <File>C:/Users/03ayv/Documents/GameDev2024/project/project/Content/LeshyLeaf.png</File>
     <File>C:/Users/03ayv/Documents/GameDev2024/project/project/Content/Porcupine.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>
