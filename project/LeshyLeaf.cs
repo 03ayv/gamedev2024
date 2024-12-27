@@ -18,6 +18,9 @@ namespace project
     {
         private Texture2D leshyLeafTexture;
         private Animation walking;
+        private Animation idle;
+        private Animation currentAnimation;
+
         private Vector2 position;
 
         //input
@@ -37,6 +40,7 @@ namespace project
         public LeshyLeaf(Texture2D texture, IInputReader inputReader)
         {
             leshyLeafTexture = texture;
+
             walking = new Animation();
             walking.AddFrame(new AnimationFrame(new Rectangle(0,40,32,32)));
             walking.AddFrame(new AnimationFrame(new Rectangle(32,40, 32, 32)));
@@ -47,7 +51,20 @@ namespace project
             walking.AddFrame(new AnimationFrame(new Rectangle(192, 40, 32, 32)));
             walking.AddFrame(new AnimationFrame(new Rectangle(224, 40, 32, 32)));
 
+            idle = new Animation();
+            idle.AddFrame(new AnimationFrame(new Rectangle(0, 8, 32, 32)));
+            idle.AddFrame(new AnimationFrame(new Rectangle(32, 8, 32, 32)));
+            idle.AddFrame(new AnimationFrame(new Rectangle(64, 8, 32, 32)));
+            idle.AddFrame(new AnimationFrame(new Rectangle(96, 8, 32, 32)));
+            idle.AddFrame(new AnimationFrame(new Rectangle(128, 8, 32, 32)));
+            idle.AddFrame(new AnimationFrame(new Rectangle(160, 8, 32, 32)));
+            idle.AddFrame(new AnimationFrame(new Rectangle(192, 8, 32, 32)));
+            idle.AddFrame(new AnimationFrame(new Rectangle(224, 8, 32, 32)));
+
             position = new Vector2(0, 300);
+
+            //set current animation
+            currentAnimation = idle;
 
             //jump
             velocity = Vector2.Zero;
@@ -62,6 +79,16 @@ namespace project
             var direction = inputReader.ReadInput();
             direction *= 4; //speed of keyboard movement
             position += direction;
+
+            //switch between animations
+            if (direction.X != 0)
+            {
+                currentAnimation = walking;
+            }
+            else
+            {
+                currentAnimation = idle;
+            }
 
             //jumping
             if (direction.Y < 0 && jumpCount < MAX_JUMPS)
@@ -82,7 +109,7 @@ namespace project
                 jumpCount = 0;
             }
 
-            walking.Update(gameTime);
+            currentAnimation.Update(gameTime);
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -90,7 +117,7 @@ namespace project
             float scale = 4f;
 
             //walking animation
-            spriteBatch.Draw(leshyLeafTexture, position, walking.CurrentFrame.SourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(leshyLeafTexture, position, currentAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
         }
     }
 }
