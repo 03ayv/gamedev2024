@@ -37,3 +37,4 @@ C:\Users\03ayv\Documents\GameDev2024\project\project\obj\Debug\net6.0-windows\pr
 C:\Users\03ayv\Documents\GameDev2024\project\project\obj\Debug\net6.0-windows\project.genruntimeconfig.cache
 C:\Users\03ayv\Documents\GameDev2024\project\project\obj\Debug\net6.0-windows\ref\project.dll
 C:\Users\03ayv\Documents\GameDev2024\project\project\bin\Debug\net6.0-windows\Content\LeshyLeaf.xnb
+C:\Users\03ayv\Documents\GameDev2024\project\project\bin\Debug\net6.0-windows\Content\Porcupine.xnb

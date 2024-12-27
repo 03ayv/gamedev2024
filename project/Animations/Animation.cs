@@ -17,6 +17,8 @@ namespace project.Animations
         private float frameTime = 0.1f; // time per frame
         private float currentFrameTime;
 
+        private double frameMovement = 0;
+
         public Animation()
         {
             frames = new List<AnimationFrame>();
@@ -32,7 +34,7 @@ namespace project.Animations
         public void Update(GameTime gameTime)
         {
             currentFrameTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-
+           
             if (currentFrameTime >= frameTime)
             {
                 counter++;
@@ -45,6 +47,7 @@ namespace project.Animations
 
                 CurrentFrame = frames[counter];
             }
+            
         }
     }
 }
