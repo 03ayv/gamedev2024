@@ -40,3 +40,8 @@ C:\Users\03ayv\Documents\GameDev2024\project\project\bin\Debug\net6.0-windows\Co
 C:\Users\03ayv\Documents\GameDev2024\project\project\bin\Debug\net6.0-windows\Content\Porcupine.xnb
 C:\Users\03ayv\Documents\GameDev2024\project\project\bin\Debug\net6.0-windows\Content\Dragonfly.xnb
 C:\Users\03ayv\Documents\GameDev2024\project\project\bin\Debug\net6.0-windows\Content\Squirrel.xnb
+C:\Users\03ayv\Documents\GameDev2024\project\project\bin\Debug\net6.0-windows\Content\BG1.xnb
+C:\Users\03ayv\Documents\GameDev2024\project\project\bin\Debug\net6.0-windows\Content\BG2.xnb
+C:\Users\03ayv\Documents\GameDev2024\project\project\bin\Debug\net6.0-windows\Content\BG3.xnb
+C:\Users\03ayv\Documents\GameDev2024\project\project\bin\Debug\net6.0-windows\Content\Decors.xnb
+C:\Users\03ayv\Documents\GameDev2024\project\project\bin\Debug\net6.0-windows\Content\Tileset.xnb

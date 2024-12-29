@@ -1,5 +1,10 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Users/03ayv/Documents/GameDev2024/project/project/Content/BG1.png","C:/Users/03ayv/Documents/GameDev2024/project/project/Content/bin/Windows/Content/BG1.xnb","TextureProcessor","Texture2DContent",1759,245845,0.1172351
+"C:/Users/03ayv/Documents/GameDev2024/project/project/Content/BG2.png","C:/Users/03ayv/Documents/GameDev2024/project/project/Content/bin/Windows/Content/BG2.xnb","TextureProcessor","Texture2DContent",1558,245845,0.0101238
+"C:/Users/03ayv/Documents/GameDev2024/project/project/Content/BG3.png","C:/Users/03ayv/Documents/GameDev2024/project/project/Content/bin/Windows/Content/BG3.xnb","TextureProcessor","Texture2DContent",1940,245845,0.009248
+"C:/Users/03ayv/Documents/GameDev2024/project/project/Content/Decors.png","C:/Users/03ayv/Documents/GameDev2024/project/project/Content/bin/Windows/Content/Decors.xnb","TextureProcessor","Texture2DContent",2252,100437,0.0062694
 "C:/Users/03ayv/Documents/GameDev2024/project/project/Content/Dragonfly.png","C:/Users/03ayv/Documents/GameDev2024/project/project/Content/bin/Windows/Content/Dragonfly.xnb","TextureProcessor","Texture2DContent",35127,114773,0.0992183
 "C:/Users/03ayv/Documents/GameDev2024/project/project/Content/LeshyLeaf.png","C:/Users/03ayv/Documents/GameDev2024/project/project/Content/bin/Windows/Content/LeshyLeaf.xnb","TextureProcessor","Texture2DContent",40393,196693,0.1003578
 "C:/Users/03ayv/Documents/GameDev2024/project/project/Content/Porcupine.png","C:/Users/03ayv/Documents/GameDev2024/project/project/Content/bin/Windows/Content/Porcupine.xnb","TextureProcessor","Texture2DContent",47558,102485,0.10227
 "C:/Users/03ayv/Documents/GameDev2024/project/project/Content/Squirrel.png","C:/Users/03ayv/Documents/GameDev2024/project/project/Content/bin/Windows/Content/Squirrel.xnb","TextureProcessor","Texture2DContent",37031,229461,0.1051316
+"C:/Users/03ayv/Documents/GameDev2024/project/project/Content/Tileset.png","C:/Users/03ayv/Documents/GameDev2024/project/project/Content/bin/Windows/Content/Tileset.xnb","TextureProcessor","Texture2DContent",2721,49237,0.003856
