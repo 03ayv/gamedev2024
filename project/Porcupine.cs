@@ -20,7 +20,7 @@ namespace project
         //set which side to face
         private bool isFacingRight = false;
 
-        public Porcupine(Texture2D texture)
+        public Porcupine(Texture2D texture, Vector2 startPosition)
         {
             porcupineTexture = texture;
             walking = new Animation();
@@ -30,7 +30,7 @@ namespace project
             walking.AddFrame(new AnimationFrame(new Rectangle(96, 0, 32, 32)));
             walking.AddFrame(new AnimationFrame(new Rectangle(128, 0, 32, 32)));
 
-            position = new Vector2(200, 1185);
+            position = startPosition;
             speed = new Vector2(-1, 0);
         }
 

@@ -24,7 +24,7 @@ namespace project
         private float amplitude = 20f;  //distance
         private float frequency = 2f;   //speed
 
-        public Dragonfly(Texture2D texture)
+        public Dragonfly(Texture2D texture, Vector2 startPosition)
         {
             dragonflyTexture = texture;
             flying = new Animation();
@@ -33,7 +33,7 @@ namespace project
             flying.AddFrame(new AnimationFrame(new Rectangle(64, 0, 32, 32)));
             flying.AddFrame(new AnimationFrame(new Rectangle(96, 0, 32, 32)));
 
-            position = new Vector2(400, 900);
+            position = startPosition;
             speed = new Vector2(-1, 0);
             originalY = position.Y;
             //acceleration = new Vector2(0.1f, 0.1f);

@@ -18,7 +18,7 @@ namespace project
         private Vector2 position;
         private Vector2 speed;
 
-        public Squirrel(Texture2D texture)
+        public Squirrel(Texture2D texture, Vector2 startPosition)
         {
             squirrelTexture = texture;
             walking = new Animation();
@@ -30,7 +30,7 @@ namespace project
             walking.AddFrame(new AnimationFrame(new Rectangle(160, 64, 32, 32)));
             walking.AddFrame(new AnimationFrame(new Rectangle(192, 64, 32, 32)));
 
-            position = new Vector2(500, 1185);
+            position = startPosition;
             speed = new Vector2(-2, 0);
         }
 
