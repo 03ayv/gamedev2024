@@ -22,6 +22,13 @@ namespace project
         private Vector2 speed;
         private LeshyLeaf leshyLeaf;
         private const float DETECTION_RANGE = 100f; //detect leshyleaf
+        private bool hasJumped = false;
+        
+        //jump
+        private Vector2 velocity = Vector2.Zero;
+        private float gravity = 0.5f;
+        private float jumpForce = -8f;
+        private bool isJumping = false;
 
         public Squirrel(Texture2D texture, Vector2 startPosition, LeshyLeaf leshyLeaf)
         {
@@ -51,14 +58,32 @@ namespace project
             //calculate distance between leshyleaf
             float distanceToPlayer = Vector2.Distance(position, new Vector2(leshyLeaf.GetBounds().Center.X, leshyLeaf.GetBounds().Center.Y));
 
-            //jump once detected
-            if (distanceToPlayer <= DETECTION_RANGE)
+            if (distanceToPlayer <= DETECTION_RANGE && !hasJumped)
             {
                 currentAnimation = jump;
+                hasJumped = true;
+                isJumping = true;
+                velocity.Y = jumpForce;
             }
-            else
+            else if (distanceToPlayer > DETECTION_RANGE && !isJumping)
             {
                 currentAnimation = idle;
+                hasJumped = false;
+            }
+
+            //gravity
+            if (isJumping)
+            {
+                velocity.Y += gravity;
+                position.Y += velocity.Y;
+
+                //check landing
+                if (position.Y >= 1185) //ground level
+                {
+                    position.Y = 1185;
+                    isJumping = false;
+                    velocity = Vector2.Zero;
+                }
             }
 
             currentAnimation.Update(gameTime);
