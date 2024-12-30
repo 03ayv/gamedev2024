@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using project.Input;
+using SharpDX.Direct2D1.Effects;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -51,7 +52,15 @@ namespace project
 
         private List<Rectangle> bgTiles;      
         private List<Rectangle> decorTiles;   
-        private List<Rectangle> tilesetTiles; 
+        private List<Rectangle> tilesetTiles;
+
+        private int tileWidth = 16;
+        private int tileHeight = 16;
+        private float scale = 5f;
+
+        //camera stays within background
+        private int mapWidth;
+        private int mapHeight;
 
         public Game1()
         {
@@ -169,10 +178,6 @@ namespace project
 
         private void DrawTiles(SpriteBatch spriteBatch)
         {
-            int tileWidth = 16;
-            int tileHeight = 16;
-            float scale = 5f;
-
             //draw all layers
             DrawTileLayer(spriteBatch, bg1Texture, tileMap1, tileWidth, tileHeight, scale);
             DrawTileLayer(spriteBatch, bg2Texture, tileMap2, tileWidth, tileHeight, scale);
@@ -222,9 +227,14 @@ namespace project
             GraphicsDevice.Clear(backgroundColor);
 
             //camera position centers leshyleaf horizontally
-            //cameraPosition = new Vector2(leshyLeaf.GetBounds().Center.X - GraphicsDevice.Viewport.Width / 6, 0);
-            cameraPosition = new Vector2(leshyLeaf.GetBounds().Center.X - GraphicsDevice.Viewport.Width / 6, GraphicsDevice.Viewport.Height * 2
-);
+            cameraPosition = new Vector2(
+                leshyLeaf.GetBounds().Center.X - GraphicsDevice.Viewport.Width / 3,
+                //leshyLeaf.GetBounds().Center.Y - GraphicsDevice.Viewport.Height * 0.65f //vertically too
+                GraphicsDevice.Viewport.Height * 1.9f
+                );
+
+            //clamp camera to stay within map boundaries
+            ClampCamera();
 
             //camera transform matrix
             Matrix cameraTransform = Matrix.CreateTranslation(-cameraPosition.X, -cameraPosition.Y, 0);
@@ -257,5 +267,22 @@ namespace project
             }
             return tileList;
         }
+
+        //clamp camera within map
+        private void ClampCamera()
+        {
+            //calculate map dimensions
+            float mapWidthInPixels = (tileMap1.GetLength(1) * 16 * 5) - GraphicsDevice.Viewport.Width / 21f; //adjust for ending point
+            float mapHeightInPixels = (tileMap1.GetLength(0) * 16 * 5f); 
+                                                                
+            float minX = GraphicsDevice.Viewport.Width / 50; //adjust for starting point
+            float maxX = mapWidthInPixels - GraphicsDevice.Viewport.Width + minX;
+            float maxY = mapHeightInPixels - GraphicsDevice.Viewport.Height;
+
+            //clamp camera position
+            cameraPosition.X = Math.Clamp(cameraPosition.X, minX, maxX);
+            cameraPosition.Y = Math.Clamp(cameraPosition.Y, 0, maxY);
+        }
+
     }
 }
