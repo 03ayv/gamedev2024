@@ -21,7 +21,7 @@ namespace project
         private bool isFacingRight = false;
 
         //distance to move
-        private float patrolDistance = 200f;
+        private float patrolDistance = 170f;
         private float startX;
 
         public Porcupine(Texture2D texture, Vector2 startPosition)

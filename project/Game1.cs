@@ -155,12 +155,12 @@ namespace project
             
             enemies = new List<IGameObject>
             {
-                new Porcupine(porcupineTexture, new Vector2(200, 1185)),
                 new Porcupine(porcupineTexture, new Vector2(800, 1185)),
+                new Porcupine(porcupineTexture, new Vector2(1700, 1185)),
                 new Dragonfly(dragonflyTexture, new Vector2(400, 900)),
-                new Dragonfly(dragonflyTexture, new Vector2(900, 800)),
+                new Dragonfly(dragonflyTexture, new Vector2(1500, 1000)),
                 new Squirrel(squirrelTexture, new Vector2(500, 1185)),
-                new Squirrel(squirrelTexture, new Vector2(1200, 1185))
+                new Squirrel(squirrelTexture, new Vector2(2000, 1185))
             };
         }
 
