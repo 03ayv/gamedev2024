@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using project.Input;
+using project.Tiles;
 using SharpDX.Direct2D1.Effects;
 using System;
 using System.Collections.Generic;
@@ -61,6 +62,9 @@ namespace project
         //camera stays within background
         private int mapWidth;
         private int mapHeight;
+
+        //tilemanager
+        private TileManager tileManager;
 
         public Game1()
         {
@@ -130,6 +134,8 @@ namespace project
             tileMap4 = LoadTileMap("Data/Forest_TileLayer4.csv");
             tileMap5 = LoadTileMap("Data/Forest_TileLayer5.csv");
 
+            tileManager = new TileManager(tileMap4, 16, 16, 5f);
+
             //game object textures
             leshyLeafTexture = Content.Load<Texture2D>("LeshyLeaf");
             porcupineTexture = Content.Load<Texture2D>("Porcupine");
@@ -145,7 +151,7 @@ namespace project
 
         private void InitializeGameObjects()
         {
-            leshyLeaf = new LeshyLeaf(leshyLeafTexture, new KeyboardReader());
+            leshyLeaf = new LeshyLeaf(leshyLeafTexture, new KeyboardReader(), tileManager);
             porcupine = new Porcupine(porcupineTexture);
             dragonfly = new Dragonfly(dragonflyTexture);
             squirrel = new Squirrel(squirrelTexture);

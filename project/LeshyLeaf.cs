@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using project.Animations;
 using project.Input;
 using project.Interfaces;
+using project.Tiles;
 using SharpDX.Direct3D9;
 using SharpDX.DXGI;
 using System;
@@ -30,7 +31,7 @@ namespace project
         private Vector2 velocity;
         private bool isJumping;
         private float gravity = 0.6f;
-        private float jumpForce = -11f;
+        private float jumpForce = -8f;
         private float groundLevel;
 
         //double jump
@@ -40,7 +41,10 @@ namespace project
         //set which side to face
         private bool isFacingRight = true;
 
-        public LeshyLeaf(Texture2D texture, IInputReader inputReader)
+        //tilemanager
+        TileManager tileManager;
+
+        public LeshyLeaf(Texture2D texture, IInputReader inputReader, TileManager tileManager)
         {
             leshyLeafTexture = texture;
 
@@ -75,13 +79,45 @@ namespace project
 
             //read input
             this.inputReader = inputReader;
+
+            
+            this.tileManager = tileManager;
         }
 
         public void Update(GameTime gameTime)
         {
             var direction = inputReader.ReadInput();
             direction *= 4; //speed of keyboard movement
-            position += direction;
+            //position += direction;
+
+            //horizontal movement
+            position.X += direction.X;
+
+            //check ground collision
+            Rectangle nextBounds = new Rectangle(
+                (int)position.X + 16,
+                (int)(position.Y + velocity.Y) + 16,
+                32 * 4 - 32,
+                32 * 4 - 32);
+
+            if (tileManager.CheckCollision(nextBounds))
+            {
+                Rectangle tileBounds = tileManager.GetSolidTileBounds(nextBounds);
+                if (tileBounds != Rectangle.Empty)
+                {
+                    if (velocity.Y > 0) // Falling
+                    {
+                        position.Y = tileBounds.Top - (32 * 4) + 30; //adjust ground level
+                        velocity.Y = 0;
+                        isJumping = false;
+                        jumpCount = 0;
+                    }
+                }
+            }
+            else
+            {
+                position.Y += velocity.Y;
+            }
 
             //set which side to face
             if (direction.X < 0)
@@ -106,17 +142,9 @@ namespace project
                 isJumping = true;
                 jumpCount++;
             }
-            //gravity
+            //gravity & vertical movement
             velocity.Y += gravity;
             position.Y += velocity.Y;
-            //ground collision
-            if (position.Y >= groundLevel)
-            {
-                position.Y = groundLevel;
-                velocity.Y = 0;
-                isJumping = false;
-                jumpCount = 0;
-            }
 
             currentAnimation.Update(gameTime);
         }
