@@ -33,7 +33,7 @@ namespace project
             flying.AddFrame(new AnimationFrame(new Rectangle(64, 0, 32, 32)));
             flying.AddFrame(new AnimationFrame(new Rectangle(96, 0, 32, 32)));
 
-            position = new Vector2(400, 1000);
+            position = new Vector2(400, 900);
             speed = new Vector2(-1, 0);
             originalY = position.Y;
             //acceleration = new Vector2(0.1f, 0.1f);

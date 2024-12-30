@@ -64,19 +64,17 @@ namespace project.Tiles
                             {
                                 if (checkWallsOnly)
                                 {
-                                    //calculate intersection depth
-                                    float intersectDepth = Math.Min(
-                                        bounds.Right - tileRect.Left,
-                                        tileRect.Right - bounds.Left
-                                    );
-
-                                    //check if it is a wall collision
-                                    float verticalOverlap = Math.Min(
-                                        bounds.Bottom - tileRect.Top,
-                                        tileRect.Bottom - bounds.Top
-                                    );
-
-                                    return intersectDepth < verticalOverlap;
+                                    //check for wall collisions
+                                    bool isLeftCollision = bounds.Right > tileRect.Left && bounds.Left < tileRect.Left;
+                                    bool isRightCollision = bounds.Left < tileRect.Right && bounds.Right > tileRect.Right;
+                                    
+                                    //ignore collision if above tile
+                                    if (bounds.Bottom < tileRect.Top + (tileRect.Height * 0.25f))
+                                    {
+                                        return false;
+                                    }
+                                    
+                                    return isLeftCollision || isRightCollision;
                                 }
                                 return true;
                             }
@@ -119,7 +117,8 @@ namespace project.Tiles
                     if (y >= 0 && y < collisionLayer.GetLength(0) &&
                         x >= 0 && x < collisionLayer.GetLength(1))
                     {
-                        if (IsSolidTile(collisionLayer[y, x]))
+                        int tileIndex = collisionLayer[y, x];
+                        if (IsSolidTile(tileIndex))
                         {
                             return new Rectangle(
                                 x * tileWidth * (int)scale,

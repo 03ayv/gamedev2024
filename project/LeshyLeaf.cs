@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using project.Animations;
@@ -30,8 +30,8 @@ namespace project
         //jump
         private Vector2 velocity;
         private bool isJumping;
-        private float gravity = 0.6f;
-        private float jumpForce = -8f;
+        private float gravity = 0.9f;
+        private float jumpForce = -14f;
         private float groundLevel;
 
         //double jump
@@ -87,36 +87,23 @@ namespace project
         public void Update(GameTime gameTime)
         {
             var direction = inputReader.ReadInput();
-            direction *= 4; //speed of keyboard movement
-            //position += direction;
+            direction *= 4;
 
             //horizontal movement
-            position.X += direction.X;
-
-            //check ground collision
-            Rectangle nextBounds = new Rectangle(
-                (int)position.X + 16,
-                (int)(position.Y + velocity.Y) + 16,
-                32 * 4 - 32,
-                32 * 4 - 32);
-
-            if (tileManager.CheckCollision(nextBounds))
+            if (direction.X != 0)
             {
-                Rectangle tileBounds = tileManager.GetSolidTileBounds(nextBounds);
-                if (tileBounds != Rectangle.Empty)
+                Rectangle nextHorizontalBounds = new Rectangle(
+                    (int)(position.X + direction.X) + 16,
+                    (int)position.Y + 16,
+                    32 * 4 - 32,
+                    32 * 4 - 32
+                );
+
+                //check for wall collision
+                if (!tileManager.CheckCollision(nextHorizontalBounds, true))
                 {
-                    if (velocity.Y > 0) // Falling
-                    {
-                        position.Y = tileBounds.Top - (32 * 4) + 30; //adjust ground level
-                        velocity.Y = 0;
-                        isJumping = false;
-                        jumpCount = 0;
-                    }
+                    position.X += direction.X;
                 }
-            }
-            else
-            {
-                position.Y += velocity.Y;
             }
 
             //set which side to face
@@ -125,15 +112,7 @@ namespace project
             else if (direction.X > 0)
                 isFacingRight = true;
 
-            //switch between animations
-            if (direction.X != 0)
-            {
-                currentAnimation = walking;
-            }
-            else
-            {
-                currentAnimation = idle;
-            }
+            currentAnimation = direction.X != 0 ? walking : idle;
 
             //jumping
             if (direction.Y < 0 && jumpCount < MAX_JUMPS)
@@ -142,9 +121,33 @@ namespace project
                 isJumping = true;
                 jumpCount++;
             }
-            //gravity & vertical movement
+
+            //gravity
             velocity.Y += gravity;
-            position.Y += velocity.Y;
+
+            //vertical movement
+            Rectangle nextVerticalBounds = new Rectangle(
+                (int)position.X + 16,
+                (int)(position.Y + velocity.Y) + 16,
+                32 * 4 - 32,
+                32 * 4 - 32
+            );
+
+            if (tileManager.CheckCollision(nextVerticalBounds))
+            {
+                Rectangle tileBounds = tileManager.GetSolidTileBounds(nextVerticalBounds);
+                if (tileBounds != Rectangle.Empty && velocity.Y > 0)
+                {
+                    position.Y = tileBounds.Top - (32 * 4) + 30f; //adjust ground level
+                    velocity.Y = 0;
+                    isJumping = false;
+                    jumpCount = 0;
+                }
+            }
+            else
+            {
+                position.Y += velocity.Y;
+            }
 
             currentAnimation.Update(gameTime);
         }
@@ -160,7 +163,13 @@ namespace project
         }
         public Rectangle GetBounds()
         {
-            return new Rectangle((int)position.X, (int)position.Y, 32, 32);
+            return new Rectangle(
+                (int)position.X + 16,        
+                (int)position.Y + 16,       
+                16 * 4 - 32,                  
+                16 * 4 - 32                  
+            );
         }
     }
 }
+
