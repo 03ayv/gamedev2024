@@ -64,14 +64,14 @@ namespace project
             idle.AddFrame(new AnimationFrame(new Rectangle(192, 8, 32, 32)));
             idle.AddFrame(new AnimationFrame(new Rectangle(224, 8, 32, 32)));
 
-            position = new Vector2(0, 300);
+            position = new Vector2(0, 1185);
 
             //set current animation
             currentAnimation = idle;
 
             //jump
             velocity = Vector2.Zero;
-            groundLevel = 300;
+            groundLevel = 1185;
 
             //read input
             this.inputReader = inputReader;

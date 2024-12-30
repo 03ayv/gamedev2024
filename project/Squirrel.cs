@@ -30,7 +30,7 @@ namespace project
             walking.AddFrame(new AnimationFrame(new Rectangle(160, 64, 32, 32)));
             walking.AddFrame(new AnimationFrame(new Rectangle(192, 64, 32, 32)));
 
-            position = new Vector2(500, 300);
+            position = new Vector2(500, 1185);
             speed = new Vector2(-2, 0);
         }
 

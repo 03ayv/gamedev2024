@@ -30,7 +30,7 @@ namespace project
             walking.AddFrame(new AnimationFrame(new Rectangle(96, 0, 32, 32)));
             walking.AddFrame(new AnimationFrame(new Rectangle(128, 0, 32, 32)));
 
-            position = new Vector2(200, 300);
+            position = new Vector2(200, 1185);
             speed = new Vector2(-1, 0);
         }
 
@@ -50,7 +50,7 @@ namespace project
                 //acceleration.X *= -1;
             }
 
-            if (position.Y > 400 || position.Y < 0)
+            if (position.Y > 1185 || position.Y < 100)
             {
                 speed.Y *= -1;
                 //acceleration *= -1;

@@ -171,7 +171,7 @@ namespace project
         {
             int tileWidth = 16;
             int tileHeight = 16;
-            float scale = 1f;
+            float scale = 5f;
 
             //draw all layers
             DrawTileLayer(spriteBatch, bg1Texture, tileMap1, tileWidth, tileHeight, scale);
@@ -222,7 +222,9 @@ namespace project
             GraphicsDevice.Clear(backgroundColor);
 
             //camera position centers leshyleaf horizontally
-            cameraPosition = new Vector2(leshyLeaf.GetBounds().Center.X - GraphicsDevice.Viewport.Width / 6, 0);
+            //cameraPosition = new Vector2(leshyLeaf.GetBounds().Center.X - GraphicsDevice.Viewport.Width / 6, 0);
+            cameraPosition = new Vector2(leshyLeaf.GetBounds().Center.X - GraphicsDevice.Viewport.Width / 6, GraphicsDevice.Viewport.Height * 2
+);
 
             //camera transform matrix
             Matrix cameraTransform = Matrix.CreateTranslation(-cameraPosition.X, -cameraPosition.Y, 0);
