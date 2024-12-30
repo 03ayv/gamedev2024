@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using project.Animations;
 using project.Interfaces;
+using project.Tiles;
 using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
@@ -14,58 +15,70 @@ namespace project
     public class Squirrel : IGameObject
     {
         private Texture2D squirrelTexture;
-        private Animation walking;
+        private Animation idle;
+        private Animation jump;
+        private Animation currentAnimation;
         private Vector2 position;
         private Vector2 speed;
+        private LeshyLeaf leshyLeaf;
+        private const float DETECTION_RANGE = 100f; //detect leshyleaf
 
-        public Squirrel(Texture2D texture, Vector2 startPosition)
+        public Squirrel(Texture2D texture, Vector2 startPosition, LeshyLeaf leshyLeaf)
         {
             squirrelTexture = texture;
-            walking = new Animation();
-            walking.AddFrame(new AnimationFrame(new Rectangle(0, 64, 32, 32)));
-            walking.AddFrame(new AnimationFrame(new Rectangle(32, 64, 32, 32)));
-            walking.AddFrame(new AnimationFrame(new Rectangle(64, 64, 32, 32)));
-            walking.AddFrame(new AnimationFrame(new Rectangle(96, 64, 32, 32)));
-            walking.AddFrame(new AnimationFrame(new Rectangle(128, 64, 32, 32)));
-            walking.AddFrame(new AnimationFrame(new Rectangle(160, 64, 32, 32)));
-            walking.AddFrame(new AnimationFrame(new Rectangle(192, 64, 32, 32)));
+            idle = new Animation();
+            idle.AddFrame(new AnimationFrame(new Rectangle(0, 32, 32, 32)));
+            idle.AddFrame(new AnimationFrame(new Rectangle(32, 32, 32, 32)));
+            idle.AddFrame(new AnimationFrame(new Rectangle(64, 32, 32, 32)));
+            idle.AddFrame(new AnimationFrame(new Rectangle(96, 32, 32, 32)));
+            idle.AddFrame(new AnimationFrame(new Rectangle(128, 32, 32, 32)));
+            idle.AddFrame(new AnimationFrame(new Rectangle(160, 32, 32, 32)));
+
+            jump = new Animation();
+            jump.AddFrame(new AnimationFrame(new Rectangle(0, 160, 32, 32)));
+            jump.AddFrame(new AnimationFrame(new Rectangle(32, 160, 32, 32)));
+            jump.AddFrame(new AnimationFrame(new Rectangle(64, 160, 32, 32)));
+            jump.AddFrame(new AnimationFrame(new Rectangle(96, 160, 32, 32)));
 
             position = startPosition;
             speed = new Vector2(-2, 0);
+            this.leshyLeaf = leshyLeaf;
+            currentAnimation = idle;
         }
 
         public void Update(GameTime gameTime)
         {
-            Move();
-            walking.Update(gameTime);
-        }
-        private void Move()
-        {
-            position += speed;
+            //calculate distance between leshyleaf
+            float distanceToPlayer = Vector2.Distance(position, new Vector2(leshyLeaf.GetBounds().Center.X, leshyLeaf.GetBounds().Center.Y));
 
-            //speed += acceleration;
+            //jump once detected
+            if (distanceToPlayer <= DETECTION_RANGE)
+            {
+                currentAnimation = jump;
+            }
+            else
+            {
+                currentAnimation = idle;
+            }
 
-            /*
-            if(position.X>600 || position.X < 0)
-            {
-                speed.X *= -1;
-                //acceleration.X *= -1;
-            }
-            if (position.Y > 400 || position.Y < 0)
-            {
-                speed.Y *= -1;
-                //acceleration *= -1;
-            }
-            */
+            currentAnimation.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            //adjust size (1.0f = original size)
             float scale = 3f;
 
-            //walking animation
-            spriteBatch.Draw(squirrelTexture, position, walking.CurrentFrame.SourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.FlipHorizontally, 0f);
+            spriteBatch.Draw(
+                squirrelTexture, 
+                position,
+                currentAnimation.CurrentFrame.SourceRectangle, 
+                Color.White,
+                0f,
+                Vector2.Zero,
+                scale, 
+                SpriteEffects.FlipHorizontally,
+                0f
+            );
         }
 
         public Rectangle GetBounds()

@@ -20,15 +20,10 @@ namespace project
         private Texture2D leshyLeafTexture;
         LeshyLeaf leshyLeaf;
 
-        //porcupine sprite
+        //enemies
         private Texture2D porcupineTexture;
-
-        //dragonfly sprite
         private Texture2D dragonflyTexture;
-
-        //squirrel sprite
         private Texture2D squirrelTexture;
-
         private List<IGameObject> enemies = new List<IGameObject>();
 
         //game over
@@ -157,10 +152,10 @@ namespace project
             {
                 new Porcupine(porcupineTexture, new Vector2(800, 1185)),
                 new Porcupine(porcupineTexture, new Vector2(1700, 1185)),
-                new Dragonfly(dragonflyTexture, new Vector2(400, 900)),
+                new Dragonfly(dragonflyTexture, new Vector2(400, 950)),
                 new Dragonfly(dragonflyTexture, new Vector2(1500, 1000)),
-                new Squirrel(squirrelTexture, new Vector2(500, 1185)),
-                new Squirrel(squirrelTexture, new Vector2(2000, 1185))
+                new Squirrel(squirrelTexture, new Vector2(300, 1185), leshyLeaf),
+                new Squirrel(squirrelTexture, new Vector2(2000, 1185), leshyLeaf)
             };
         }
 
