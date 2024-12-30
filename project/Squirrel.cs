@@ -70,7 +70,12 @@ namespace project
 
         public Rectangle GetBounds()
         {
-            return new Rectangle((int)position.X, (int)position.Y, 30, 30);
+            return new Rectangle(
+                (int)position.X + 16,
+                (int)position.Y + 16,
+                32,  
+                32  
+            );
         }
     }
 }

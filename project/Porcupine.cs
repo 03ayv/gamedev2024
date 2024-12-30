@@ -20,6 +20,10 @@ namespace project
         //set which side to face
         private bool isFacingRight = false;
 
+        //distance to move
+        private float patrolDistance = 200f;
+        private float startX;
+
         public Porcupine(Texture2D texture, Vector2 startPosition)
         {
             porcupineTexture = texture;
@@ -31,6 +35,7 @@ namespace project
             walking.AddFrame(new AnimationFrame(new Rectangle(128, 0, 32, 32)));
 
             position = startPosition;
+            startX = startPosition.X; //initial position
             speed = new Vector2(-1, 0);
         }
 
@@ -39,21 +44,21 @@ namespace project
             Move();
             walking.Update(gameTime);
         }
+
         private void Move()
         {
             position += speed;
 
-            if (position.X > 400 || position.X < 200)
+            //check position relative to initial position
+            if (position.X < startX - patrolDistance || position.X > startX + patrolDistance)
             {
                 speed.X *= -1;
                 isFacingRight = speed.X > 0;
-                //acceleration.X *= -1;
             }
 
             if (position.Y > 1185 || position.Y < 100)
             {
                 speed.Y *= -1;
-                //acceleration *= -1;
             }
         }
 
@@ -70,7 +75,12 @@ namespace project
 
         public Rectangle GetBounds()
         {
-            return new Rectangle((int)position.X, (int)position.Y, 30, 30);
+            return new Rectangle(
+                (int)position.X + 16,
+                (int)position.Y + 16,
+                32, 
+                32  
+            );
         }
     }
 }

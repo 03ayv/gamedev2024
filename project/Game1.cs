@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using project.Input;
+using project.Interfaces;
 using project.Tiles;
 using SharpDX.Direct2D1.Effects;
 using System;
@@ -21,18 +22,14 @@ namespace project
 
         //porcupine sprite
         private Texture2D porcupineTexture;
-        Porcupine porcupine;
-        Porcupine porcupine2;
 
         //dragonfly sprite
         private Texture2D dragonflyTexture;
-        Dragonfly dragonfly;
-        Dragonfly dragonfly2;
 
         //squirrel sprite
         private Texture2D squirrelTexture;
-        Squirrel squirrel;
-        Squirrel squirrel2;
+
+        private List<IGameObject> enemies = new List<IGameObject>();
 
         //game over
         private bool gameOver = false;
@@ -155,13 +152,16 @@ namespace project
         private void InitializeGameObjects()
         {
             leshyLeaf = new LeshyLeaf(leshyLeafTexture, new KeyboardReader(), tileManager);
-            porcupine = new Porcupine(porcupineTexture, new Vector2(200, 1185));
-            dragonfly = new Dragonfly(dragonflyTexture, new Vector2(400, 900));
-            squirrel = new Squirrel(squirrelTexture, new Vector2(500, 1185));
-
-            porcupine2 = new Porcupine(porcupineTexture, new Vector2(800, 1185));
-            dragonfly2 = new Dragonfly(dragonflyTexture, new Vector2(900, 800));
-            squirrel2 = new Squirrel(squirrelTexture, new Vector2(1200, 1185));
+            
+            enemies = new List<IGameObject>
+            {
+                new Porcupine(porcupineTexture, new Vector2(200, 1185)),
+                new Porcupine(porcupineTexture, new Vector2(800, 1185)),
+                new Dragonfly(dragonflyTexture, new Vector2(400, 900)),
+                new Dragonfly(dragonflyTexture, new Vector2(900, 800)),
+                new Squirrel(squirrelTexture, new Vector2(500, 1185)),
+                new Squirrel(squirrelTexture, new Vector2(1200, 1185))
+            };
         }
 
         protected override void Update(GameTime gameTime)
@@ -169,24 +169,21 @@ namespace project
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            leshyLeaf.Update(gameTime);
-            porcupine.Update(gameTime);
-            porcupine2.Update(gameTime);
-            dragonfly.Update(gameTime);
-            dragonfly2.Update(gameTime);
-            squirrel.Update(gameTime);
-            squirrel2.Update(gameTime);
-
-            //enemy collisions
-            if (leshyLeaf.GetBounds().Intersects(porcupine.GetBounds()) ||
-                leshyLeaf.GetBounds().Intersects(porcupine2.GetBounds()) ||
-                leshyLeaf.GetBounds().Intersects(dragonfly.GetBounds()) ||
-                leshyLeaf.GetBounds().Intersects(dragonfly2.GetBounds()) ||
-                leshyLeaf.GetBounds().Intersects(squirrel.GetBounds()) ||
-                leshyLeaf.GetBounds().Intersects(squirrel2.GetBounds()))
+            if (!gameOver)
             {
-                gameOver = true;
-                backgroundColor = Color.DarkRed;
+                leshyLeaf.Update(gameTime);
+
+                foreach (var enemy in enemies)
+                {
+                    enemy.Update(gameTime);
+
+                    if (leshyLeaf.GetBounds().Intersects(enemy.GetBounds()))
+                    {
+                        gameOver = true;
+                        backgroundColor = Color.DarkRed;
+                        break;
+                    }
+                }
             }
 
             base.Update(gameTime);
@@ -259,12 +256,10 @@ namespace project
 
             DrawTiles(_spriteBatch);
             leshyLeaf.Draw(_spriteBatch);
-            porcupine.Draw(_spriteBatch);
-            porcupine2.Draw(_spriteBatch);
-            dragonfly.Draw(_spriteBatch);
-            dragonfly2.Draw(_spriteBatch);
-            squirrel.Draw(_spriteBatch);
-            squirrel2.Draw(_spriteBatch);
+            foreach (var enemy in enemies)
+            {
+                enemy.Draw(_spriteBatch);
+            }
 
             _spriteBatch.End();
             

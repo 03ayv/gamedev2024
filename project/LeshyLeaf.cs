@@ -164,12 +164,13 @@ namespace project
         public Rectangle GetBounds()
         {
             return new Rectangle(
-                (int)position.X + 16,        
-                (int)position.Y + 16,       
-                16 * 4 - 32,                  
-                16 * 4 - 32                  
+                (int)position.X + 16,
+                (int)position.Y + 16,
+                20 * 4 - 32,
+                20 * 4 - 32
             );
         }
+
     }
 }
 
