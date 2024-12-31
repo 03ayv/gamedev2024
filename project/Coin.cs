@@ -23,7 +23,7 @@ namespace project
             position = startPosition;
 
             idle = new Animation();
-            idle.AddFrame(new AnimationFrame(new Rectangle(0, 135, 32, 32)));
+            idle.AddFrame(new AnimationFrame(new Rectangle(0, 135, 28, 28)));
 
         }
 

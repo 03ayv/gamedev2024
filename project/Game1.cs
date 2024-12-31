@@ -8,6 +8,7 @@ using SharpDX.Direct2D1.Effects;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace project
 {
@@ -66,6 +67,7 @@ namespace project
         private Key key;
         private Texture2D coinTexture;
         private Coin coin;
+        private List<Coin> coins = new List<Coin>();
 
         public Game1()
         {
@@ -169,7 +171,10 @@ namespace project
             };
 
             key = new Key(keyTexture, new Vector2(2200, 1190));
-            coin = new Coin(coinTexture, new Vector2(800, 1190));
+            
+            //initialize coins
+            List<Vector2> coinPositions = GenerateCoinPositions();
+            coins = coinPositions.Select(position => new Coin(coinTexture, position)).ToList();
         }
 
         protected override void Update(GameTime gameTime)
@@ -203,13 +208,14 @@ namespace project
                 //go to next level
             }
 
-            //collect coin
-            coin.Update(gameTime);
-
-            //check collision with leshyleaf
-            if (!coin.IsCollected() && coin.GetBounds().Intersects(leshyLeaf.GetBounds()))
+            //check collision for all coins
+            foreach (var coin in coins.ToList())
             {
-                coin.Collect();
+                coin.Update(gameTime);
+                if (!coin.IsCollected() && coin.GetBounds().Intersects(leshyLeaf.GetBounds()))
+                {
+                    coin.Collect();
+                }
             }
 
             base.Update(gameTime);
@@ -287,7 +293,10 @@ namespace project
                 enemy.Draw(_spriteBatch);
             }
             key.Draw(_spriteBatch);
-            coin.Draw(_spriteBatch);
+            foreach (var coin in coins)
+            {
+                coin.Draw(_spriteBatch);
+            }
 
             _spriteBatch.End();
             
@@ -324,6 +333,35 @@ namespace project
             //clamp camera position
             cameraPosition.X = Math.Clamp(cameraPosition.X, minX, maxX);
             cameraPosition.Y = Math.Clamp(cameraPosition.Y, 0, maxY);
+        }
+
+        //generate multiple coins
+        private List<Vector2> GenerateCoinPositions()
+        {
+            List<Vector2> positions = new List<Vector2>
+            {
+                new Vector2(50, 1195),
+                new Vector2(150, 1195),
+                new Vector2(250, 1160),
+                new Vector2(400, 1120),
+                new Vector2(500, 1120),
+                new Vector2(650, 1195),
+                new Vector2(750, 1195),
+                new Vector2(850, 1195),
+                new Vector2(930, 1100),
+                new Vector2(1050, 1035),
+                new Vector2(1150, 1035),
+                new Vector2(1250, 1035),
+                new Vector2(1350, 1000),
+                new Vector2(1400, 970),
+                new Vector2(1450, 950),
+                new Vector2(1500, 940),
+                new Vector2(1550, 930),
+                new Vector2(1450, 1195),
+                new Vector2(1550, 1195),
+                new Vector2(1650, 1195),
+            };
+            return positions;
         }
 
     }
