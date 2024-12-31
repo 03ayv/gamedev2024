@@ -70,6 +70,9 @@ namespace project
         private List<Coin> coins = new List<Coin>();
         private ScoreManager scoreManager;
 
+        //level
+        private LevelManager levelManager;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -79,6 +82,7 @@ namespace project
 
         protected override void Initialize()
         {
+            levelManager = new LevelManager();
             base.Initialize();
         }
 
@@ -131,13 +135,13 @@ namespace project
                 }
             }
 
-            //load csv
+            //load csv for correct level
             tileMap1 = LoadTileMap("Data/Forest_TileLayer1.csv");
             tileMap2 = LoadTileMap("Data/Forest_TileLayer2.csv");
             tileMap3 = LoadTileMap("Data/Forest_TileLayer3.csv");
             tileMap4 = LoadTileMap("Data/Forest_TileLayer4.csv");
             tileMap5 = LoadTileMap("Data/Forest_TileLayer5.csv");
-
+            
             tileManager = new TileManager(tileMap4, 16, 16, 5f);
 
             //game object textures
@@ -209,6 +213,10 @@ namespace project
             {
                 key.Collect();
                 //go to next level
+                levelManager.StartTransition();
+                LoadContent(); //new reload
+                InitializeGameObjects(); //reset game objects
+                levelManager.CompleteTransition();
             }
 
             //check collision for all coins
