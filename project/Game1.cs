@@ -61,6 +61,10 @@ namespace project
         //tilemanager
         private TileManager tileManager;
 
+        //extras
+        private Texture2D keyTexture;
+        private Key key;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -136,12 +140,15 @@ namespace project
             porcupineTexture = Content.Load<Texture2D>("Porcupine");
             dragonflyTexture = Content.Load<Texture2D>("Dragonfly");
             squirrelTexture = Content.Load<Texture2D>("Squirrel");
+            //extras
+            keyTexture = Content.Load<Texture2D>("Key");
             InitializeGameObjects();
 
             //initialize tile lists
             bgTiles = CreateTileRectangles(bg1Texture, tileWidth, tileHeight);
             decorTiles = CreateTileRectangles(decorsTexture, tileWidth, tileHeight);
             tilesetTiles = CreateTileRectangles(tilesetTexture, tileWidth, tileHeight);
+
         }
 
         private void InitializeGameObjects()
@@ -157,6 +164,8 @@ namespace project
                 new Squirrel(squirrelTexture, new Vector2(300, 1185), leshyLeaf),
                 new Squirrel(squirrelTexture, new Vector2(2000, 1185), leshyLeaf)
             };
+
+            key = new Key(keyTexture, new Vector2(2200, 1190));
         }
 
         protected override void Update(GameTime gameTime)
@@ -175,10 +184,19 @@ namespace project
                     if (leshyLeaf.GetBounds().Intersects(enemy.GetBounds()))
                     {
                         gameOver = true;
-                        backgroundColor = Color.DarkRed;
                         break;
                     }
                 }
+            }
+
+            //collect key to go to next level
+            key.Update(gameTime);
+
+            //check collision with leshyleaf
+            if (!key.IsCollected() && key.GetBounds().Intersects(leshyLeaf.GetBounds()))
+            {
+                key.Collect();
+                //go to next level
             }
 
             base.Update(gameTime);
@@ -255,6 +273,7 @@ namespace project
             {
                 enemy.Draw(_spriteBatch);
             }
+            key.Draw(_spriteBatch);
 
             _spriteBatch.End();
             

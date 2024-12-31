@@ -45,3 +45,4 @@ C:\Users\03ayv\Documents\GameDev2024\project\project\bin\Debug\net6.0-windows\Co
 C:\Users\03ayv\Documents\GameDev2024\project\project\bin\Debug\net6.0-windows\Content\BG3.xnb
 C:\Users\03ayv\Documents\GameDev2024\project\project\bin\Debug\net6.0-windows\Content\Decors.xnb
 C:\Users\03ayv\Documents\GameDev2024\project\project\bin\Debug\net6.0-windows\Content\Tileset.xnb
+C:\Users\03ayv\Documents\GameDev2024\project\project\bin\Debug\net6.0-windows\Content\Key.xnb
