@@ -4,44 +4,35 @@ using Microsoft.Xna.Framework.Input;
 
 namespace project
 {
-    public class LevelTransitionScreen
+    public class StartScreen
     {
-        private Rectangle nextLevelButton;
-        private bool isVisible;
+        private Rectangle playButton;
+        private Rectangle exitButton;
+        private bool isVisible = true;
         private SpriteFont font;
-        private int currentScore;
         private MouseState previousMouseState;
         private Texture2D buttonTexture;
+        private string title = "LESHY LEAF";
 
-        public LevelTransitionScreen(SpriteFont font, GraphicsDevice graphicsDevice)
+        public StartScreen(SpriteFont font, GraphicsDevice graphicsDevice)
         {
             this.font = font;
-            isVisible = false;
-            nextLevelButton = new Rectangle(0, 0, 200, 50); //position based on camera
+            playButton = new Rectangle(0, 0, 200, 50);
+            exitButton = new Rectangle(0, 0, 200, 50);
             buttonTexture = CreateButtonTexture(graphicsDevice);
-        }
-
-        public void Show(int score)
-        {
-            isVisible = true;
-            currentScore = score;
-        }
-
-        public void Hide()
-        {
-            isVisible = false;
         }
 
         public bool Update(Vector2 cameraPosition)
         {
             if (!isVisible) return false;
 
-            //position button relative to camera
-            nextLevelButton.X = (int)cameraPosition.X + 300;
-            nextLevelButton.Y = (int)cameraPosition.Y + 300;
+            playButton.X = (int)cameraPosition.X + 300;
+            playButton.Y = (int)cameraPosition.Y + 250;
+            
+            exitButton.X = (int)cameraPosition.X + 300;
+            exitButton.Y = (int)cameraPosition.Y + 350;
 
             MouseState currentMouseState = Mouse.GetState();
-            bool clicked = false;
 
             if (currentMouseState.LeftButton == ButtonState.Released && 
                 previousMouseState.LeftButton == ButtonState.Pressed)
@@ -51,15 +42,19 @@ namespace project
                     currentMouseState.Y + (int)cameraPosition.Y
                 );
 
-                if (nextLevelButton.Contains(mousePosition))
+                if (playButton.Contains(mousePosition))
                 {
-                    clicked = true;
-                    Hide();
+                    isVisible = false;
+                    return true;
+                }
+                else if (exitButton.Contains(mousePosition))
+                {
+                    System.Environment.Exit(0);
                 }
             }
 
             previousMouseState = currentMouseState;
-            return clicked;
+            return false;
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 cameraPosition)
@@ -68,7 +63,7 @@ namespace project
 
             //semi-transparent background
             Texture2D pixel = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
-            pixel.SetData(new[] { Color.Black * 0.7f });
+            pixel.SetData(new[] { Color.Black * 0.9f });
             
             Rectangle fullScreen = new Rectangle(
                 (int)cameraPosition.X, 
@@ -79,32 +74,41 @@ namespace project
             
             spriteBatch.Draw(pixel, fullScreen, Color.White);
 
-            //show score
-            string scoreText = $"Current Score: {currentScore}";
-            Vector2 scorePosition = new Vector2(
-                cameraPosition.X + 300,
-                cameraPosition.Y + 200
+            //title
+            Vector2 titleSize = font.MeasureString(title);
+            Vector2 titlePosition = new Vector2(
+                cameraPosition.X + (spriteBatch.GraphicsDevice.Viewport.Width - titleSize.X) / 2,
+                cameraPosition.Y + 150
             );
-            spriteBatch.DrawString(font, scoreText, scorePosition, Color.White);
+            spriteBatch.DrawString(font, title, titlePosition, Color.White);
 
-            //draw button
-            spriteBatch.Draw(buttonTexture, nextLevelButton, Color.White);
+            //buttons
+            spriteBatch.Draw(buttonTexture, playButton, Color.White);
+            spriteBatch.Draw(buttonTexture, exitButton, Color.White);
+
+            //text
+            string playText = "PLAY";
+            string exitText = "EXIT";
             
-            //next level button text
-            string buttonText = "NEXT LEVEL";
-            Vector2 textSize = font.MeasureString(buttonText);
+            DrawCenteredText(spriteBatch, playText, playButton);
+            DrawCenteredText(spriteBatch, exitText, exitButton);
+        }
+
+        private void DrawCenteredText(SpriteBatch spriteBatch, string text, Rectangle button)
+        {
+            Vector2 textSize = font.MeasureString(text);
             Vector2 textPosition = new Vector2(
-                nextLevelButton.X + (nextLevelButton.Width - textSize.X) / 2,
-                nextLevelButton.Y + (nextLevelButton.Height - textSize.Y) / 2
+                button.X + (button.Width - textSize.X) / 2,
+                button.Y + (button.Height - textSize.Y) / 2
             );
-            spriteBatch.DrawString(font, buttonText, textPosition, Color.White);
+            spriteBatch.DrawString(font, text, textPosition, Color.White);
         }
 
         private Texture2D CreateButtonTexture(GraphicsDevice graphicsDevice)
         {
             int width = 200;
             int height = 50;
-            int radius = 10; 
+            int radius = 10;
             Color buttonColor = new Color(34, 139, 34);
 
             Texture2D texture = new Texture2D(graphicsDevice, width, height);
@@ -115,7 +119,7 @@ namespace project
                 for (int x = 0; x < width; x++)
                 {
                     bool inButton = true;
-                    if (x < radius && y < radius) 
+                    if (x < radius && y < radius)
                     {
                         float distance = Vector2.Distance(new Vector2(x, y), new Vector2(radius, radius));
                         inButton = distance <= radius;

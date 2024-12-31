@@ -76,6 +76,10 @@ namespace project
         private LevelManager levelManager;
         private LevelTransitionScreen transitionScreen;
 
+        //start screen
+        private StartScreen startScreen;
+        private bool gameStarted = false;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -167,6 +171,9 @@ namespace project
 
             //transition levels
             transitionScreen = new LevelTransitionScreen(Content.Load<SpriteFont>("File"), GraphicsDevice);
+
+            //start screen
+            startScreen = new StartScreen(Content.Load<SpriteFont>("File"), GraphicsDevice);
         }
 
         private void InitializeGameObjects()
@@ -194,6 +201,15 @@ namespace project
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            if (!gameStarted)
+            {
+                if (startScreen.Update(cameraPosition))
+                {
+                    gameStarted = true;
+                }
+                return;
+            }
 
             if (!gameOver)
             {
@@ -324,6 +340,8 @@ namespace project
             scoreManager.Draw(_spriteBatch, cameraPosition);
             //level
             transitionScreen.Draw(_spriteBatch, cameraPosition);
+            //start screen
+            startScreen.Draw(_spriteBatch, cameraPosition);
 
             _spriteBatch.End();
             
