@@ -64,6 +64,8 @@ namespace project
         //extras
         private Texture2D keyTexture;
         private Key key;
+        private Texture2D coinTexture;
+        private Coin coin;
 
         public Game1()
         {
@@ -142,6 +144,7 @@ namespace project
             squirrelTexture = Content.Load<Texture2D>("Squirrel");
             //extras
             keyTexture = Content.Load<Texture2D>("Key");
+            coinTexture = Content.Load<Texture2D>("Key"); //key = dungeon collectibles
             InitializeGameObjects();
 
             //initialize tile lists
@@ -166,6 +169,7 @@ namespace project
             };
 
             key = new Key(keyTexture, new Vector2(2200, 1190));
+            coin = new Coin(coinTexture, new Vector2(800, 1190));
         }
 
         protected override void Update(GameTime gameTime)
@@ -197,6 +201,15 @@ namespace project
             {
                 key.Collect();
                 //go to next level
+            }
+
+            //collect coin
+            coin.Update(gameTime);
+
+            //check collision with leshyleaf
+            if (!coin.IsCollected() && coin.GetBounds().Intersects(leshyLeaf.GetBounds()))
+            {
+                coin.Collect();
             }
 
             base.Update(gameTime);
@@ -274,6 +287,7 @@ namespace project
                 enemy.Draw(_spriteBatch);
             }
             key.Draw(_spriteBatch);
+            coin.Draw(_spriteBatch);
 
             _spriteBatch.End();
             
