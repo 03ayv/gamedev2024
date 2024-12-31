@@ -68,6 +68,7 @@ namespace project
         private Texture2D coinTexture;
         private Coin coin;
         private List<Coin> coins = new List<Coin>();
+        private ScoreManager scoreManager;
 
         public Game1()
         {
@@ -154,6 +155,8 @@ namespace project
             decorTiles = CreateTileRectangles(decorsTexture, tileWidth, tileHeight);
             tilesetTiles = CreateTileRectangles(tilesetTexture, tileWidth, tileHeight);
 
+            //score manager
+            scoreManager = new ScoreManager(Content.Load<SpriteFont>("File"));
         }
 
         private void InitializeGameObjects()
@@ -215,6 +218,8 @@ namespace project
                 if (!coin.IsCollected() && coin.GetBounds().Intersects(leshyLeaf.GetBounds()))
                 {
                     coin.Collect();
+                    //1 coin = 1 score
+                    scoreManager.AddPoints(1);
                 }
             }
 
@@ -297,6 +302,9 @@ namespace project
             {
                 coin.Draw(_spriteBatch);
             }
+
+            //score
+            scoreManager.Draw(_spriteBatch, cameraPosition);
 
             _spriteBatch.End();
             
