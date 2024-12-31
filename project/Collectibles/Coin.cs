@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace project
+namespace project.Collectibles
 {
     public class Coin : IGameObject
     {

@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using project.Collectibles;
+using project.Enemies;
 using project.Input;
 using project.Interfaces;
 using project.Tiles;
@@ -70,8 +72,9 @@ namespace project
         private List<Coin> coins = new List<Coin>();
         private ScoreManager scoreManager;
 
-        //level
+        //manage levels
         private LevelManager levelManager;
+        private LevelTransitionScreen transitionScreen;
 
         public Game1()
         {
@@ -161,6 +164,9 @@ namespace project
 
             //score manager
             scoreManager = new ScoreManager(Content.Load<SpriteFont>("File"));
+
+            //transition levels
+            transitionScreen = new LevelTransitionScreen(Content.Load<SpriteFont>("File"), GraphicsDevice);
         }
 
         private void InitializeGameObjects()
@@ -205,17 +211,20 @@ namespace project
                 }
             }
 
-            //collect key to go to next level
             key.Update(gameTime);
 
-            //check collision with leshyleaf
+            //collect key to go to next level
             if (!key.IsCollected() && key.GetBounds().Intersects(leshyLeaf.GetBounds()))
             {
                 key.Collect();
-                //go to next level
+                transitionScreen.Show(scoreManager.GetScore());
+            }
+
+            if (transitionScreen.Update(cameraPosition))
+            {
                 levelManager.StartTransition();
-                LoadContent(); //new reload
-                InitializeGameObjects(); //reset game objects
+                LoadContent();
+                InitializeGameObjects();
                 levelManager.CompleteTransition();
             }
 
@@ -313,6 +322,8 @@ namespace project
 
             //score
             scoreManager.Draw(_spriteBatch, cameraPosition);
+            //level
+            transitionScreen.Draw(_spriteBatch, cameraPosition);
 
             _spriteBatch.End();
             

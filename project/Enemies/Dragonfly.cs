@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using project.Interfaces;
 
-namespace project
+namespace project.Enemies
 {
-    public class Dragonfly: IGameObject
+    public class Dragonfly : IGameObject
     {
         private Texture2D dragonflyTexture;
         private Animation flying;
@@ -67,7 +67,7 @@ namespace project
                 (int)position.X + 16,
                 (int)position.Y + 16,
                 32,
-                32 
+                32
             );
         }
     }

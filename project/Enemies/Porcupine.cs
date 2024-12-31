@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using project.Interfaces;
 
-namespace project
+namespace project.Enemies
 {
-    public class Porcupine: IGameObject
+    public class Porcupine : IGameObject
     {
         private Texture2D porcupineTexture;
         private Animation walking;
@@ -78,8 +78,8 @@ namespace project
             return new Rectangle(
                 (int)position.X + 16,
                 (int)position.Y + 16,
-                32, 
-                32  
+                32,
+                32
             );
         }
     }

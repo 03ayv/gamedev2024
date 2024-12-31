@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace project
+namespace project.Enemies
 {
     public class Squirrel : IGameObject
     {
@@ -23,7 +23,7 @@ namespace project
         private LeshyLeaf leshyLeaf;
         private const float DETECTION_RANGE = 100f; //detect leshyleaf
         private bool hasJumped = false;
-        
+
         //jump
         private Vector2 velocity = Vector2.Zero;
         private float gravity = 0.5f;
@@ -94,13 +94,13 @@ namespace project
             float scale = 3f;
 
             spriteBatch.Draw(
-                squirrelTexture, 
+                squirrelTexture,
                 position,
-                currentAnimation.CurrentFrame.SourceRectangle, 
+                currentAnimation.CurrentFrame.SourceRectangle,
                 Color.White,
                 0f,
                 Vector2.Zero,
-                scale, 
+                scale,
                 SpriteEffects.FlipHorizontally,
                 0f
             );
@@ -111,8 +111,8 @@ namespace project
             return new Rectangle(
                 (int)position.X + 16,
                 (int)position.Y + 16,
-                32,  
-                32  
+                32,
+                32
             );
         }
     }

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using project.Animations;
 using project.Interfaces;
 
-namespace project
+namespace project.Collectibles
 {
     public class Key : IGameObject
     {
@@ -66,4 +66,4 @@ namespace project
             return isCollected;
         }
     }
-} 
+}
