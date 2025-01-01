@@ -12,6 +12,7 @@ namespace project.Scenes
         private SpriteFont font;
         private MouseState previousMouseState;
         private Texture2D buttonTexture;
+        private Texture2D backgroundPixel;
         private string title = "GAME OVER!";
 
         public bool IsVisible => isVisible;
@@ -20,9 +21,11 @@ namespace project.Scenes
         {
             this.font = font;
             isVisible = false;
-            tryAgainButton = new Rectangle(0, 0, 200, 50);
-            exitButton = new Rectangle(0, 0, 200, 50);
+            tryAgainButton = new Rectangle(300, 250, 200, 50);
+            exitButton = new Rectangle(300, 350, 200, 50);
             buttonTexture = CreateButtonTexture(graphicsDevice);
+            backgroundPixel = new Texture2D(graphicsDevice, 1, 1);
+            backgroundPixel.SetData(new[] { Color.Black * 0.7f });
         }
 
         public void Show()
@@ -30,30 +33,16 @@ namespace project.Scenes
             isVisible = true;
         }
 
-        public void Hide()
-        {
-            isVisible = false;
-        }
-
         public bool Update(Vector2 cameraPosition)
         {
             if (!isVisible) return false;
-
-            tryAgainButton.X = (int)cameraPosition.X + 300;
-            tryAgainButton.Y = (int)cameraPosition.Y + 250;
-
-            exitButton.X = (int)cameraPosition.X + 300;
-            exitButton.Y = (int)cameraPosition.Y + 350;
 
             MouseState currentMouseState = Mouse.GetState();
 
             if (currentMouseState.LeftButton == ButtonState.Released &&
                 previousMouseState.LeftButton == ButtonState.Pressed)
             {
-                Point mousePosition = new Point(
-                    currentMouseState.X + (int)cameraPosition.X,
-                    currentMouseState.Y + (int)cameraPosition.Y
-                );
+                Point mousePosition = new Point(currentMouseState.X, currentMouseState.Y);
 
                 if (tryAgainButton.Contains(mousePosition))
                 {
@@ -74,22 +63,15 @@ namespace project.Scenes
         {
             if (!isVisible) return;
 
-            Texture2D pixel = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
-            pixel.SetData(new[] { Color.Black * 0.9f });
-
-            Rectangle fullScreen = new Rectangle(
-                (int)cameraPosition.X,
-                (int)cameraPosition.Y,
+            Rectangle fullScreen = new Rectangle(0, 0,
                 spriteBatch.GraphicsDevice.Viewport.Width,
-                spriteBatch.GraphicsDevice.Viewport.Height
-            );
+                spriteBatch.GraphicsDevice.Viewport.Height);
 
-            spriteBatch.Draw(pixel, fullScreen, Color.White);
+            spriteBatch.Draw(backgroundPixel, fullScreen, Color.White);
 
-            Vector2 titleSize = font.MeasureString(title);
             Vector2 titlePosition = new Vector2(
-                cameraPosition.X + (spriteBatch.GraphicsDevice.Viewport.Width - titleSize.X) / 2,
-                cameraPosition.Y + 150
+                (spriteBatch.GraphicsDevice.Viewport.Width - font.MeasureString(title).X) / 2,
+                150
             );
             spriteBatch.DrawString(font, title, titlePosition, Color.White);
 
@@ -98,6 +80,11 @@ namespace project.Scenes
 
             DrawCenteredText(spriteBatch, "TRY AGAIN", tryAgainButton);
             DrawCenteredText(spriteBatch, "EXIT", exitButton);
+        }
+
+        private void Hide()
+        {
+            isVisible = false;
         }
 
         private void DrawCenteredText(SpriteBatch spriteBatch, string text, Rectangle button)

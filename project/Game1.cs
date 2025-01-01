@@ -72,7 +72,7 @@ namespace project
         public static bool GameOver { get; set; }
         public static LevelManager LevelManager { get; private set; }
 
-        // Game over scene
+        //game over
         private GameOverScene gameOverScene;
 
         public Game1()
@@ -137,7 +137,7 @@ namespace project
             sceneManager.AddScene("Level1", scene);
             sceneManager.LoadScene("Level1");
 
-            // Add to LoadContent()
+            //game over
             gameOverScene = new GameOverScene(Content.Load<SpriteFont>("File"), GraphicsDevice);
         }
 
