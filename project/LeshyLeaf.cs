@@ -176,6 +176,15 @@ namespace project
             );
         }
 
+        public void ResetPosition(Vector2 newPosition)
+        {
+            position = newPosition;
+            velocity = Vector2.Zero;
+            isJumping = false;
+            jumpCount = 0;
+            isFacingRight = true;
+            currentAnimation = idle;
+        }
     }
 }
 

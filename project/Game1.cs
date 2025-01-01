@@ -246,11 +246,14 @@ namespace project
                 string nextScene = $"Level{LevelManager.CurrentLevel}";
                 sceneManager.LoadScene(nextScene);
                 
-                // Re-initialize SpriteBatch for the new scene
+                //re-initialize for new scene
                 var currentScene = sceneManager.GetCurrentScene();
                 currentScene.SetSpriteBatch(_spriteBatch);
                 
-                // Reset camera position for new level
+                //reset position!
+                LeshyLeaf.ResetPosition(new Vector2(50, 1185));
+                
+                //reset camera too
                 cameraPosition = new Vector2(0, GraphicsDevice.Viewport.Height * 1.9f);
             }
         }
