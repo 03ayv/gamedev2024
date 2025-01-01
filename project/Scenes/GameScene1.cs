@@ -180,6 +180,7 @@ namespace project.Scenes
             //check key collision
             if (key != null && Game1.LeshyLeaf.GetBounds().Intersects(key.GetBounds()))
             {
+                key.Collect();
                 //Game1.LevelManager.CompleteLevel();
             }
         }

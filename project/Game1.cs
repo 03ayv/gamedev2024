@@ -169,6 +169,12 @@ namespace project
                 return;
             }
 
+            if (GameOver)
+            {
+                Exit();  //exit game for now
+                return;
+            }
+
             if (levelManager.IsTransitioning)
             {
                 HandleLevelTransition();
