@@ -26,7 +26,6 @@ namespace project
         private Texture2D leshyLeafTexture;
 
         //game over
-        private bool gameOver = false;
         private Color backgroundColor = Color.RosyBrown;
 
         //camera
@@ -61,7 +60,6 @@ namespace project
         private TileManager tileManager;
 
         //manage levels
-        private LevelManager levelManager;
         private LevelTransitionScene transitionScreen;
 
         //score
@@ -74,6 +72,9 @@ namespace project
         public static bool GameOver { get; set; }
         public static LevelManager LevelManager { get; private set; }
 
+        // Game over scene
+        private GameOverScene gameOverScene;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -85,7 +86,6 @@ namespace project
 
         protected override void Initialize()
         {
-            levelManager = new LevelManager();
             sceneManager = new SceneManager(GraphicsDevice, Content);
             
             //initialize scenes!
@@ -136,6 +136,9 @@ namespace project
             scene.SetSpriteBatch(_spriteBatch);
             sceneManager.AddScene("Level1", scene);
             sceneManager.LoadScene("Level1");
+
+            // Add to LoadContent()
+            gameOverScene = new GameOverScene(Content.Load<SpriteFont>("File"), GraphicsDevice);
         }
 
         private void InitializeGameObjects()
@@ -160,11 +163,23 @@ namespace project
 
             if (GameOver)
             {
-                Exit();  //exit game for now
+                if (!gameOverScene.IsVisible)
+                {
+                    gameOverScene.Show();
+                }
+                
+                if (gameOverScene.Update(cameraPosition))
+                {
+                    GameOver = false;
+                    LevelManager.Reset();
+                    ScoreManager.Reset();
+                    sceneManager.LoadScene("Level1");
+                    return;
+                }
                 return;
             }
 
-            if (levelManager.IsTransitioning)
+            if (LevelManager.IsTransitioning)
             {
                 HandleLevelTransition();
                 return;
@@ -205,9 +220,14 @@ namespace project
             Vector2 scorePosition = new Vector2(50, 50);  //fixed position!
             ScoreManager.Draw(_spriteBatch, scorePosition);
 
-            if (levelManager.IsTransitioning)
+            if (LevelManager.IsTransitioning)
             {
                 transitionScreen.Draw(_spriteBatch, cameraPosition);
+            }
+
+            if (GameOver)
+            {
+                gameOverScene.Draw(_spriteBatch, cameraPosition);
             }
             _spriteBatch.End();
 
@@ -216,12 +236,15 @@ namespace project
 
         private void HandleLevelTransition()
         {
+            if (LevelManager.IsTransitioning && !transitionScreen.IsVisible)
+            {
+                transitionScreen.Show(ScoreManager.GetScore());
+            }
+
             if (transitionScreen.Update(cameraPosition))
             {
-                levelManager.StartTransition();
-                LoadTileContent();
-                levelManager.CompleteTransition();
-                string nextScene = $"Level{levelManager.CurrentLevel}";
+                LevelManager.CompleteTransition();
+                string nextScene = $"Level{LevelManager.CurrentLevel}";
                 sceneManager.LoadScene(nextScene);
             }
         }

@@ -72,21 +72,11 @@ namespace project.Scenes
             {
                 coin.Draw(spriteBatch);
             }
-
-            /*
-            //score
-            Vector2 scorePosition = new Vector2(
-                Game1.LeshyLeaf.Position.X + 700,
-                Game1.LeshyLeaf.Position.Y - 350   
-            );
-            scoreManager.Draw(spriteBatch, scorePosition);
-            */
         }
 
         private void InitializeGameObjects(Texture2D leshyLeafTexture, Texture2D porcupineTexture, Texture2D dragonflyTexture, 
             Texture2D squirrelTexture, Texture2D keyTexture, Texture2D coinTexture)
         {
-            //leshyLeaf = new LeshyLeaf(leshyLeafTexture, new Vector2(100, 100));
 
             enemies = new List<IGameObject>
             {
@@ -103,17 +93,6 @@ namespace project.Scenes
             List<Vector2> coinPositions = GenerateCoinPositions();
             coins = coinPositions.Select(position => new Coin(coinTexture, position)).ToList();
         }
-
-        /*
-        private void UpdateCamera()
-        {
-            cameraPosition = new Vector2(
-                leshyLeaf.GetBounds().Center.X - graphicsDevice.Viewport.Width / 3,
-                graphicsDevice.Viewport.Height * 1.9f
-            );
-            ClampCamera();
-        }
-        */
 
         private int[,] LoadTileMap(string path)
         {

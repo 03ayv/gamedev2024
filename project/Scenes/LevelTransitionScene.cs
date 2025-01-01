@@ -143,5 +143,7 @@ namespace project.Scenes
             texture.SetData(data);
             return texture;
         }
+
+        public bool IsVisible => isVisible;
     }
 }

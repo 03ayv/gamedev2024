@@ -21,20 +21,17 @@ namespace project.Scenes
 
         public override void LoadContent()
         {
-            // Load game object textures
             var leshyLeafTexture = content.Load<Texture2D>("LeshyLeaf");
             var porcupineTexture = content.Load<Texture2D>("Porcupine");
             var dragonflyTexture = content.Load<Texture2D>("Dragonfly");
             var squirrelTexture = content.Load<Texture2D>("Squirrel");
             var keyTexture = content.Load<Texture2D>("Key");
             var coinTexture = content.Load<Texture2D>("Key");
-            // Initialize game objects
             InitializeGameObjects(leshyLeafTexture, porcupineTexture, dragonflyTexture, squirrelTexture, keyTexture, coinTexture);
         }
 
         public override void Initialize()
         {
-            //scoreManager = new ScoreManager(content.Load<SpriteFont>("File"));
         }
 
         public override void Update(GameTime gameTime)
@@ -66,19 +63,12 @@ namespace project.Scenes
                 coin.Draw(spriteBatch);
             }
 
-            /*=
-            Vector2 scorePosition = new Vector2(
-                Game1.LeshyLeaf.Position.X + 700, 
-                Game1.LeshyLeaf.Position.Y - 350   
-            );
-            scoreManager.Draw(spriteBatch, scorePosition);
-            */
         }
 
         private void InitializeGameObjects(Texture2D leshyLeafTexture, Texture2D porcupineTexture, Texture2D dragonflyTexture, 
             Texture2D squirrelTexture, Texture2D keyTexture, Texture2D coinTexture)
         {
-            // More enemies for level 2
+            //more enemies
             enemies = new List<IGameObject>
             {
                 new Porcupine(porcupineTexture, new Vector2(600, 1185)),
@@ -122,7 +112,7 @@ namespace project.Scenes
                 new Vector2(1450, 1195),
                 new Vector2(1550, 1195),
                 new Vector2(1650, 1195),
-                // Additional coins for level 2
+                //additional coins
                 new Vector2(1750, 1195),
                 new Vector2(1850, 1195),
                 new Vector2(1950, 1195),
@@ -139,8 +129,6 @@ namespace project.Scenes
 
         protected override void CheckCollisions()
         {
-            // Reference to GameScene1's CheckCollisions method
-            // Lines 158-186 in GameScene1.cs
             foreach (var enemy in enemies)
             {
                 if (Game1.LeshyLeaf.GetBounds().Intersects(enemy.GetBounds()))
@@ -162,7 +150,7 @@ namespace project.Scenes
             if (key != null && Game1.LeshyLeaf.GetBounds().Intersects(key.GetBounds()))
             {
                 key.Collect();
-                //Game1.LevelManager.CompleteLevel();
+                Game1.LevelManager.StartTransition();
             }
         }
     }
