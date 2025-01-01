@@ -137,6 +137,9 @@ namespace project.Scenes
                 new Vector2(1450, 1195),
                 new Vector2(1550, 1195),
                 new Vector2(1650, 1195),
+                new Vector2(1750, 1195),
+                new Vector2(1850, 1195),
+                new Vector2(1950, 1195),
             };
             return positions;
         }

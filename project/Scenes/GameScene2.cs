@@ -71,15 +71,14 @@ namespace project.Scenes
             //more enemies
             enemies = new List<IGameObject>
             {
-                new Porcupine(porcupineTexture, new Vector2(600, 1185)),
-                new Porcupine(porcupineTexture, new Vector2(1200, 1185)),
-                new Porcupine(porcupineTexture, new Vector2(1800, 1185)),
-                new Dragonfly(dragonflyTexture, new Vector2(300, 950)),
-                new Dragonfly(dragonflyTexture, new Vector2(900, 900)),
-                new Dragonfly(dragonflyTexture, new Vector2(1500, 850)),
-                new Squirrel(squirrelTexture, new Vector2(400, 1185), Game1.LeshyLeaf),
-                new Squirrel(squirrelTexture, new Vector2(1000, 1185), Game1.LeshyLeaf),
-                new Squirrel(squirrelTexture, new Vector2(1600, 1185), Game1.LeshyLeaf)
+                new Porcupine(porcupineTexture, new Vector2(800, 1185)),
+                //new Porcupine(porcupineTexture, new Vector2(1700, 1185)),
+                new Dragonfly(dragonflyTexture, new Vector2(400, 950)),
+                new Dragonfly(dragonflyTexture, new Vector2(100, 1100)),
+                new Dragonfly(dragonflyTexture, new Vector2(1500, 1000)),
+                new Squirrel(squirrelTexture, new Vector2(300, 1185), Game1.LeshyLeaf),
+                new Squirrel(squirrelTexture, new Vector2(1500, 1185), Game1.LeshyLeaf),
+                //new Squirrel(squirrelTexture, new Vector2(2000, 1185), Game1.LeshyLeaf)
             };
 
             key = new Key(keyTexture, new Vector2(2200, 1190));
@@ -109,20 +108,10 @@ namespace project.Scenes
                 new Vector2(1450, 950),
                 new Vector2(1500, 940),
                 new Vector2(1550, 930),
-                new Vector2(1450, 1195),
-                new Vector2(1550, 1195),
                 new Vector2(1650, 1195),
-                //additional coins
                 new Vector2(1750, 1195),
                 new Vector2(1850, 1195),
                 new Vector2(1950, 1195),
-                new Vector2(2050, 1195),
-                new Vector2(1750, 900),
-                new Vector2(1850, 850),
-                new Vector2(1950, 800),
-                new Vector2(2050, 750),
-                new Vector2(2150, 700),
-                new Vector2(2250, 650)
             };
             return positions;
         }
