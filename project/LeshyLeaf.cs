@@ -23,6 +23,10 @@ namespace project
         private Animation currentAnimation;
 
         private Vector2 position;
+        private float horizontalVelocity = 0f;
+        private float acceleration = 0.3f;
+        private float deceleration = 0.5f;
+        private float maxSpeed = 4f;
 
         //input
         IInputReader inputReader;
@@ -84,31 +88,62 @@ namespace project
 
             //read input
             this.inputReader = inputReader;
-
             
             this.tileManager = tileManager;
-        }
+    }
 
         public void Update(GameTime gameTime)
         {
             var direction = inputReader.ReadInput();
-            direction *= 4;
+            //direction *= 4; //adjust speed
 
             //horizontal movement
             if (direction.X != 0)
             {
-                Rectangle nextHorizontalBounds = new Rectangle(
+                Rectangle nextHorizontalBounds_ = new Rectangle(
                     (int)(position.X + direction.X) + 16,
                     (int)position.Y + 16,
                     32 * 4 - 32,
                     32 * 4 - 32
                 );
 
+                // Accelerate in the direction of input
+                horizontalVelocity += direction.X * acceleration;
+                horizontalVelocity = MathHelper.Clamp(horizontalVelocity, -maxSpeed, maxSpeed);
+
+                // Set facing direction based on input direction
+                isFacingRight = direction.X > 0;
+
                 //check for wall collision
-                if (!tileManager.CheckCollision(nextHorizontalBounds, true))
+                if (!tileManager.CheckCollision(nextHorizontalBounds_, true))
                 {
                     position.X += direction.X;
                 }
+            }
+            else
+            {
+                // Decelerate when no input
+                if (horizontalVelocity > 0)
+                    horizontalVelocity = Math.Max(0, horizontalVelocity - deceleration);
+                else if (horizontalVelocity < 0)
+                    horizontalVelocity = Math.Min(0, horizontalVelocity + deceleration);
+            }
+
+            Rectangle nextHorizontalBounds = new Rectangle(
+                    (int)(position.X + direction.X) + 16,
+                    (int)position.Y + 16,
+                    32 * 4 - 32,
+                    32 * 4 - 32
+                );
+
+            if (!tileManager.CheckCollision(nextHorizontalBounds, true))
+            {
+                position.X += horizontalVelocity;
+            }
+            else
+            {
+                // Stop momentum on collision
+                horizontalVelocity = 0;
             }
 
             //set which side to face
