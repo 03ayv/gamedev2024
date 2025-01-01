@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 
-namespace project
+namespace project.Scenes
 {
     public class LevelManager
     {
@@ -27,4 +27,4 @@ namespace project
             isTransitioning = false;
         }
     }
-} 
+}

@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace project
+namespace project.Scenes
 {
-    public class StartScreen
+    public class StartScene
     {
         private Rectangle playButton;
         private Rectangle exitButton;
@@ -14,7 +14,7 @@ namespace project
         private Texture2D buttonTexture;
         private string title = "LESHY LEAF";
 
-        public StartScreen(SpriteFont font, GraphicsDevice graphicsDevice)
+        public StartScene(SpriteFont font, GraphicsDevice graphicsDevice)
         {
             this.font = font;
             playButton = new Rectangle(0, 0, 200, 50);
@@ -28,13 +28,13 @@ namespace project
 
             playButton.X = (int)cameraPosition.X + 300;
             playButton.Y = (int)cameraPosition.Y + 250;
-            
+
             exitButton.X = (int)cameraPosition.X + 300;
             exitButton.Y = (int)cameraPosition.Y + 350;
 
             MouseState currentMouseState = Mouse.GetState();
 
-            if (currentMouseState.LeftButton == ButtonState.Released && 
+            if (currentMouseState.LeftButton == ButtonState.Released &&
                 previousMouseState.LeftButton == ButtonState.Pressed)
             {
                 Point mousePosition = new Point(
@@ -64,14 +64,14 @@ namespace project
             //semi-transparent background
             Texture2D pixel = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
             pixel.SetData(new[] { Color.Black * 0.9f });
-            
+
             Rectangle fullScreen = new Rectangle(
-                (int)cameraPosition.X, 
-                (int)cameraPosition.Y, 
+                (int)cameraPosition.X,
+                (int)cameraPosition.Y,
                 spriteBatch.GraphicsDevice.Viewport.Width,
                 spriteBatch.GraphicsDevice.Viewport.Height
             );
-            
+
             spriteBatch.Draw(pixel, fullScreen, Color.White);
 
             //title
@@ -89,7 +89,7 @@ namespace project
             //text
             string playText = "PLAY";
             string exitText = "EXIT";
-            
+
             DrawCenteredText(spriteBatch, playText, playButton);
             DrawCenteredText(spriteBatch, exitText, exitButton);
         }
@@ -148,4 +148,4 @@ namespace project
             return texture;
         }
     }
-} 
+}

@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace project
+namespace project.Scenes
 {
-    public class LevelTransitionScreen
+    public class LevelTransitionScene
     {
         private Rectangle nextLevelButton;
         private bool isVisible;
@@ -13,7 +13,7 @@ namespace project
         private MouseState previousMouseState;
         private Texture2D buttonTexture;
 
-        public LevelTransitionScreen(SpriteFont font, GraphicsDevice graphicsDevice)
+        public LevelTransitionScene(SpriteFont font, GraphicsDevice graphicsDevice)
         {
             this.font = font;
             isVisible = false;
@@ -43,7 +43,7 @@ namespace project
             MouseState currentMouseState = Mouse.GetState();
             bool clicked = false;
 
-            if (currentMouseState.LeftButton == ButtonState.Released && 
+            if (currentMouseState.LeftButton == ButtonState.Released &&
                 previousMouseState.LeftButton == ButtonState.Pressed)
             {
                 Point mousePosition = new Point(
@@ -69,14 +69,14 @@ namespace project
             //semi-transparent background
             Texture2D pixel = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
             pixel.SetData(new[] { Color.Black * 0.7f });
-            
+
             Rectangle fullScreen = new Rectangle(
-                (int)cameraPosition.X, 
-                (int)cameraPosition.Y, 
+                (int)cameraPosition.X,
+                (int)cameraPosition.Y,
                 spriteBatch.GraphicsDevice.Viewport.Width,
                 spriteBatch.GraphicsDevice.Viewport.Height
             );
-            
+
             spriteBatch.Draw(pixel, fullScreen, Color.White);
 
             //show score
@@ -89,7 +89,7 @@ namespace project
 
             //draw button
             spriteBatch.Draw(buttonTexture, nextLevelButton, Color.White);
-            
+
             //next level button text
             string buttonText = "NEXT LEVEL";
             Vector2 textSize = font.MeasureString(buttonText);
@@ -104,7 +104,7 @@ namespace project
         {
             int width = 200;
             int height = 50;
-            int radius = 10; 
+            int radius = 10;
             Color buttonColor = new Color(34, 139, 34);
 
             Texture2D texture = new Texture2D(graphicsDevice, width, height);
@@ -115,7 +115,7 @@ namespace project
                 for (int x = 0; x < width; x++)
                 {
                     bool inButton = true;
-                    if (x < radius && y < radius) 
+                    if (x < radius && y < radius)
                     {
                         float distance = Vector2.Distance(new Vector2(x, y), new Vector2(radius, radius));
                         inButton = distance <= radius;
@@ -144,4 +144,4 @@ namespace project
             return texture;
         }
     }
-} 
+}

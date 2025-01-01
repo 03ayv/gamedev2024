@@ -25,14 +25,6 @@ namespace project
         public static LeshyLeaf LeshyLeaf { get; private set; }
         private Texture2D leshyLeafTexture;
 
-        /*
-        //enemies
-        private Texture2D porcupineTexture;
-        private Texture2D dragonflyTexture;
-        private Texture2D squirrelTexture;
-        private List<IGameObject> enemies = new List<IGameObject>();
-        */
-
         //game over
         private bool gameOver = false;
         private Color backgroundColor = Color.RosyBrown;
@@ -68,22 +60,15 @@ namespace project
         //tilemanager
         private TileManager tileManager;
 
-       /*
-        //extras
-        private Texture2D keyTexture;
-        private Key key;
-        private Texture2D coinTexture;
-        private Coin coin;
-        private List<Coin> coins = new List<Coin>();
-       */
-        private ScoreManager scoreManager;
-
         //manage levels
         private LevelManager levelManager;
-        private LevelTransitionScreen transitionScreen;
+        private LevelTransitionScene transitionScreen;
+
+        //score
+        public static ScoreManager ScoreManager { get; private set; }
 
         //start screen
-        private StartScreen startScreen;
+        private StartScene startScreen;
         private bool gameStarted = false;
 
         public static bool GameOver { get; set; }
@@ -105,6 +90,7 @@ namespace project
             
             //initialize scenes!
             sceneManager.AddScene("Level1", new GameScene1(GraphicsDevice, Content));
+            sceneManager.AddScene("Level2", new GameScene2(GraphicsDevice, Content));
             
             base.Initialize();
         }
@@ -139,9 +125,12 @@ namespace project
             LoadTileContent();
             
             //load screens
-            startScreen = new StartScreen(Content.Load<SpriteFont>("File"), GraphicsDevice);
-            transitionScreen = new LevelTransitionScreen(Content.Load<SpriteFont>("File"), GraphicsDevice);
-            
+            startScreen = new StartScene(Content.Load<SpriteFont>("File"), GraphicsDevice);
+            transitionScreen = new LevelTransitionScene(Content.Load<SpriteFont>("File"), GraphicsDevice);
+
+            //load score
+            ScoreManager = new ScoreManager(Content.Load<SpriteFont>("File"));
+
             //load initial scene (level 1)
             var scene = new GameScene1(GraphicsDevice, Content);
             scene.SetSpriteBatch(_spriteBatch);
@@ -190,7 +179,7 @@ namespace project
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.RosyBrown);
+            GraphicsDevice.Clear(backgroundColor);
 
             if (!gameStarted)
             {
@@ -200,26 +189,26 @@ namespace project
                 return;
             }
 
-            //main game with camera transform
+            //draw with camera transform
             _spriteBatch.Begin(
                 samplerState: SamplerState.PointClamp,
                 transformMatrix: Matrix.CreateTranslation(-cameraPosition.X, -cameraPosition.Y, 0)
             );
-
-            //draw tiles
+            
             DrawTiles(_spriteBatch);
-            
-            //draw leshyleaf
             LeshyLeaf.Draw(_spriteBatch);
-            
-            //draw current scene
             sceneManager.Draw(gameTime);
+            _spriteBatch.End();
+
+            //draw UI elements (without camera transform)
+            _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            Vector2 scorePosition = new Vector2(50, 50);  //fixed position!
+            ScoreManager.Draw(_spriteBatch, scorePosition);
 
             if (levelManager.IsTransitioning)
             {
                 transitionScreen.Draw(_spriteBatch, cameraPosition);
             }
-
             _spriteBatch.End();
 
             base.Draw(gameTime);
@@ -314,36 +303,6 @@ namespace project
             cameraPosition.Y = Math.Clamp(cameraPosition.Y, 0, maxY);
         }
 
-        /*
-        //generate multiple coins
-        private List<Vector2> GenerateCoinPositions()
-        {
-            List<Vector2> positions = new List<Vector2>
-            {
-                new Vector2(50, 1195),
-                new Vector2(150, 1195),
-                new Vector2(250, 1160),
-                new Vector2(400, 1120),
-                new Vector2(500, 1120),
-                new Vector2(650, 1195),
-                new Vector2(750, 1195),
-                new Vector2(850, 1195),
-                new Vector2(930, 1100),
-                new Vector2(1050, 1035),
-                new Vector2(1150, 1035),
-                new Vector2(1250, 1035),
-                new Vector2(1350, 1000),
-                new Vector2(1400, 970),
-                new Vector2(1450, 950),
-                new Vector2(1500, 940),
-                new Vector2(1550, 930),
-                new Vector2(1450, 1195),
-                new Vector2(1550, 1195),
-                new Vector2(1650, 1195),
-            };
-            return positions;
-        }
-        */
 
         private void LoadTileContent()
         {
@@ -378,25 +337,12 @@ namespace project
             
             tileManager = new TileManager(tileMap4, 16, 16, 5f);
 
-            /*
-            //game object textures
-            leshyLeafTexture = Content.Load<Texture2D>("LeshyLeaf");
-            porcupineTexture = Content.Load<Texture2D>("Porcupine");
-            dragonflyTexture = Content.Load<Texture2D>("Dragonfly");
-            squirrelTexture = Content.Load<Texture2D>("Squirrel");
-            //extras
-            keyTexture = Content.Load<Texture2D>("Key");
-            coinTexture = Content.Load<Texture2D>("Key"); //key = dungeon collectibles
-            */
             InitializeGameObjects();
 
             //initialize tile lists
             bgTiles = CreateTileRectangles(bg1Texture, tileWidth, tileHeight);
             decorTiles = CreateTileRectangles(decorsTexture, tileWidth, tileHeight);
             tilesetTiles = CreateTileRectangles(tilesetTexture, tileWidth, tileHeight);
-
-            //score manager
-            scoreManager = new ScoreManager(Content.Load<SpriteFont>("File"));
 
             //initialize leshyleaf before scenes
             leshyLeafTexture = Content.Load<Texture2D>("LeshyLeaf");

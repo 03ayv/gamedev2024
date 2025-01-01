@@ -12,33 +12,28 @@ using System.Linq;
 
 namespace project.Scenes
 {
-    public class GameScene1 : BaseScene
+    public class GameScene2 : BaseScene
     {
-        public GameScene1(GraphicsDevice graphicsDevice, ContentManager content) 
+        public GameScene2(GraphicsDevice graphicsDevice, ContentManager content) 
             : base(graphicsDevice, content)
         {
         }
 
         public override void LoadContent()
         {
-            //load game objects
+            // Load game object textures
             var leshyLeafTexture = content.Load<Texture2D>("LeshyLeaf");
             var porcupineTexture = content.Load<Texture2D>("Porcupine");
             var dragonflyTexture = content.Load<Texture2D>("Dragonfly");
             var squirrelTexture = content.Load<Texture2D>("Squirrel");
             var keyTexture = content.Load<Texture2D>("Key");
             var coinTexture = content.Load<Texture2D>("Key");
-            //initialize game objects
+            // Initialize game objects
             InitializeGameObjects(leshyLeafTexture, porcupineTexture, dragonflyTexture, squirrelTexture, keyTexture, coinTexture);
         }
 
         public override void Initialize()
         {
-            //level-specific objects
-            //initialize coins
-            List<Vector2> coinPositions = GenerateCoinPositions();
-            //coins = coinPositions.Select(position => new Coin(coinTexture, position)).ToList();
-
             //scoreManager = new ScoreManager(content.Load<SpriteFont>("File"));
         }
 
@@ -61,8 +56,6 @@ namespace project.Scenes
 
         public override void Draw(GameTime gameTime)
         {
-            //draw all game objects
-
             foreach (var enemy in enemies)
             {
                 enemy.Draw(spriteBatch);
@@ -73,10 +66,9 @@ namespace project.Scenes
                 coin.Draw(spriteBatch);
             }
 
-            /*
-            //score
+            /*=
             Vector2 scorePosition = new Vector2(
-                Game1.LeshyLeaf.Position.X + 700,
+                Game1.LeshyLeaf.Position.X + 700, 
                 Game1.LeshyLeaf.Position.Y - 350   
             );
             scoreManager.Draw(spriteBatch, scorePosition);
@@ -86,16 +78,18 @@ namespace project.Scenes
         private void InitializeGameObjects(Texture2D leshyLeafTexture, Texture2D porcupineTexture, Texture2D dragonflyTexture, 
             Texture2D squirrelTexture, Texture2D keyTexture, Texture2D coinTexture)
         {
-            //leshyLeaf = new LeshyLeaf(leshyLeafTexture, new Vector2(100, 100));
-
+            // More enemies for level 2
             enemies = new List<IGameObject>
             {
-                new Porcupine(porcupineTexture, new Vector2(800, 1185)),
-                new Porcupine(porcupineTexture, new Vector2(1700, 1185)),
-                new Dragonfly(dragonflyTexture, new Vector2(400, 950)),
-                new Dragonfly(dragonflyTexture, new Vector2(1500, 1000)),
-                new Squirrel(squirrelTexture, new Vector2(300, 1185), Game1.LeshyLeaf),
-                new Squirrel(squirrelTexture, new Vector2(2000, 1185), Game1.LeshyLeaf)
+                new Porcupine(porcupineTexture, new Vector2(600, 1185)),
+                new Porcupine(porcupineTexture, new Vector2(1200, 1185)),
+                new Porcupine(porcupineTexture, new Vector2(1800, 1185)),
+                new Dragonfly(dragonflyTexture, new Vector2(300, 950)),
+                new Dragonfly(dragonflyTexture, new Vector2(900, 900)),
+                new Dragonfly(dragonflyTexture, new Vector2(1500, 850)),
+                new Squirrel(squirrelTexture, new Vector2(400, 1185), Game1.LeshyLeaf),
+                new Squirrel(squirrelTexture, new Vector2(1000, 1185), Game1.LeshyLeaf),
+                new Squirrel(squirrelTexture, new Vector2(1600, 1185), Game1.LeshyLeaf)
             };
 
             key = new Key(keyTexture, new Vector2(2200, 1190));
@@ -104,36 +98,6 @@ namespace project.Scenes
             coins = coinPositions.Select(position => new Coin(coinTexture, position)).ToList();
         }
 
-        /*
-        private void UpdateCamera()
-        {
-            cameraPosition = new Vector2(
-                leshyLeaf.GetBounds().Center.X - graphicsDevice.Viewport.Width / 3,
-                graphicsDevice.Viewport.Height * 1.9f
-            );
-            ClampCamera();
-        }
-        */
-
-        private int[,] LoadTileMap(string path)
-        {
-            string[] lines = File.ReadAllLines(path);
-            int rows = lines.Length;
-            int cols = lines[0].Split(',').Length;
-            var map = new int[rows, cols];
-
-            for (int y = 0; y < rows; y++)
-            {
-                string[] cells = lines[y].Split(',');
-                for (int x = 0; x < cols; x++)
-                {
-                    map[y, x] = int.Parse(cells[x]);
-                }
-            }
-            return map;
-        }
-
-        //generate multiple coins
         private List<Vector2> GenerateCoinPositions()
         {
             List<Vector2> positions = new List<Vector2>
@@ -158,13 +122,25 @@ namespace project.Scenes
                 new Vector2(1450, 1195),
                 new Vector2(1550, 1195),
                 new Vector2(1650, 1195),
+                // Additional coins for level 2
+                new Vector2(1750, 1195),
+                new Vector2(1850, 1195),
+                new Vector2(1950, 1195),
+                new Vector2(2050, 1195),
+                new Vector2(1750, 900),
+                new Vector2(1850, 850),
+                new Vector2(1950, 800),
+                new Vector2(2050, 750),
+                new Vector2(2150, 700),
+                new Vector2(2250, 650)
             };
             return positions;
         }
 
         protected override void CheckCollisions()
         {
-            //check enemy collision
+            // Reference to GameScene1's CheckCollisions method
+            // Lines 158-186 in GameScene1.cs
             foreach (var enemy in enemies)
             {
                 if (Game1.LeshyLeaf.GetBounds().Intersects(enemy.GetBounds()))
@@ -174,7 +150,6 @@ namespace project.Scenes
                 }
             }
 
-            //check coin collision
             for (int i = coins.Count - 1; i >= 0; i--)
             {
                 if (!coins[i].IsCollected() && Game1.LeshyLeaf.GetBounds().Intersects(coins[i].GetBounds()))
@@ -184,11 +159,10 @@ namespace project.Scenes
                 }
             }
 
-            //check key collision
             if (key != null && Game1.LeshyLeaf.GetBounds().Intersects(key.GetBounds()))
             {
                 key.Collect();
-                Game1.LevelManager.StartTransition();
+                //Game1.LevelManager.CompleteLevel();
             }
         }
     }
