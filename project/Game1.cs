@@ -5,6 +5,7 @@ using project.Collectibles;
 using project.Enemies;
 using project.Input;
 using project.Interfaces;
+using project.Scenes;
 using project.Tiles;
 using SharpDX.Direct2D1.Effects;
 using System;
@@ -18,16 +19,19 @@ namespace project
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private SceneManager sceneManager;
 
         //leshy leaf sprite
+        public static LeshyLeaf LeshyLeaf { get; private set; }
         private Texture2D leshyLeafTexture;
-        LeshyLeaf leshyLeaf;
 
+        /*
         //enemies
         private Texture2D porcupineTexture;
         private Texture2D dragonflyTexture;
         private Texture2D squirrelTexture;
         private List<IGameObject> enemies = new List<IGameObject>();
+        */
 
         //game over
         private bool gameOver = false;
@@ -64,12 +68,14 @@ namespace project
         //tilemanager
         private TileManager tileManager;
 
+       /*
         //extras
         private Texture2D keyTexture;
         private Key key;
         private Texture2D coinTexture;
         private Coin coin;
         private List<Coin> coins = new List<Coin>();
+       */
         private ScoreManager scoreManager;
 
         //manage levels
@@ -80,16 +86,26 @@ namespace project
         private StartScreen startScreen;
         private bool gameStarted = false;
 
+        public static bool GameOver { get; set; }
+        public static LevelManager LevelManager { get; private set; }
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            GameOver = false;
+            LevelManager = new LevelManager();
         }
 
         protected override void Initialize()
         {
             levelManager = new LevelManager();
+            sceneManager = new SceneManager(GraphicsDevice, Content);
+            
+            //initialize scenes!
+            sceneManager.AddScene("Level1", new GameScene1(GraphicsDevice, Content));
+            
             base.Initialize();
         }
 
@@ -103,6 +119,7 @@ namespace project
             Console.WriteLine($"Loading tilemap: {path}");
             Console.WriteLine($"ons: { rows}x{ cols}");
 
+
             for (int y = 0; y < rows; y++)
             {
                 string[] cells = lines[y].Split(',');
@@ -114,149 +131,104 @@ namespace project
             return map;
         }
 
-
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //load tilesets
-            bg1Texture = Content.Load<Texture2D>("BG1");
-            bg2Texture = Content.Load<Texture2D>("BG2");
-            bg3Texture = Content.Load<Texture2D>("BG3");
-            decorsTexture = Content.Load<Texture2D>("Decors");
-            tilesetTexture = Content.Load<Texture2D>("Tileset");
+            //load tile content
+            LoadTileContent();
             
-
-            tiles = new List<Rectangle>();
-            //tile rectangle = 16px/16px
-            int tileWidth = 16;
-            int tileHeight = 16;
-            int columns = bg2Texture.Width / tileWidth;
-            int rows = bg2Texture.Height / tileHeight;
-
-            for (int y = 0; y < rows; y++)
-            {
-                for (int x = 0; x < columns; x++)
-                {
-                    tiles.Add(new Rectangle(x * tileWidth, y * tileHeight, tileWidth, tileHeight));
-                }
-            }
-
-            //load csv for correct level
-            tileMap1 = LoadTileMap("Data/Forest_TileLayer1.csv");
-            tileMap2 = LoadTileMap("Data/Forest_TileLayer2.csv");
-            tileMap3 = LoadTileMap("Data/Forest_TileLayer3.csv");
-            tileMap4 = LoadTileMap("Data/Forest_TileLayer4.csv");
-            tileMap5 = LoadTileMap("Data/Forest_TileLayer5.csv");
-            
-            tileManager = new TileManager(tileMap4, 16, 16, 5f);
-
-            //game object textures
-            leshyLeafTexture = Content.Load<Texture2D>("LeshyLeaf");
-            porcupineTexture = Content.Load<Texture2D>("Porcupine");
-            dragonflyTexture = Content.Load<Texture2D>("Dragonfly");
-            squirrelTexture = Content.Load<Texture2D>("Squirrel");
-            //extras
-            keyTexture = Content.Load<Texture2D>("Key");
-            coinTexture = Content.Load<Texture2D>("Key"); //key = dungeon collectibles
-            InitializeGameObjects();
-
-            //initialize tile lists
-            bgTiles = CreateTileRectangles(bg1Texture, tileWidth, tileHeight);
-            decorTiles = CreateTileRectangles(decorsTexture, tileWidth, tileHeight);
-            tilesetTiles = CreateTileRectangles(tilesetTexture, tileWidth, tileHeight);
-
-            //score manager
-            scoreManager = new ScoreManager(Content.Load<SpriteFont>("File"));
-
-            //transition levels
-            transitionScreen = new LevelTransitionScreen(Content.Load<SpriteFont>("File"), GraphicsDevice);
-
-            //start screen
+            //load screens
             startScreen = new StartScreen(Content.Load<SpriteFont>("File"), GraphicsDevice);
+            transitionScreen = new LevelTransitionScreen(Content.Load<SpriteFont>("File"), GraphicsDevice);
+            
+            //load initial scene (level 1)
+            var scene = new GameScene1(GraphicsDevice, Content);
+            scene.SetSpriteBatch(_spriteBatch);
+            sceneManager.AddScene("Level1", scene);
+            sceneManager.LoadScene("Level1");
         }
 
         private void InitializeGameObjects()
         {
-            leshyLeaf = new LeshyLeaf(leshyLeafTexture, new KeyboardReader(), tileManager);
-            
-            enemies = new List<IGameObject>
-            {
-                new Porcupine(porcupineTexture, new Vector2(800, 1185)),
-                new Porcupine(porcupineTexture, new Vector2(1700, 1185)),
-                new Dragonfly(dragonflyTexture, new Vector2(400, 950)),
-                new Dragonfly(dragonflyTexture, new Vector2(1500, 1000)),
-                new Squirrel(squirrelTexture, new Vector2(300, 1185), leshyLeaf),
-                new Squirrel(squirrelTexture, new Vector2(2000, 1185), leshyLeaf)
-            };
-
-            key = new Key(keyTexture, new Vector2(2200, 1190));
-            
-            //initialize coins
-            List<Vector2> coinPositions = GenerateCoinPositions();
-            coins = coinPositions.Select(position => new Coin(coinTexture, position)).ToList();
+            LeshyLeaf = new LeshyLeaf(leshyLeafTexture, new KeyboardReader(), tileManager);
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || 
+                Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             if (!gameStarted)
             {
-                if (startScreen.Update(cameraPosition))
+                if (startScreen.Update(Vector2.Zero))
                 {
                     gameStarted = true;
                 }
                 return;
             }
 
-            if (!gameOver)
+            if (levelManager.IsTransitioning)
             {
-                leshyLeaf.Update(gameTime);
-
-                foreach (var enemy in enemies)
-                {
-                    enemy.Update(gameTime);
-
-                    if (leshyLeaf.GetBounds().Intersects(enemy.GetBounds()))
-                    {
-                        gameOver = true;
-                        break;
-                    }
-                }
+                HandleLevelTransition();
+                return;
             }
 
-            key.Update(gameTime);
+            LeshyLeaf.Update(gameTime);
+            UpdateCamera();
+            sceneManager.Update(gameTime);
+            
+            base.Update(gameTime);
+        }
 
-            //collect key to go to next level
-            if (!key.IsCollected() && key.GetBounds().Intersects(leshyLeaf.GetBounds()))
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.RosyBrown);
+
+            if (!gameStarted)
             {
-                key.Collect();
-                transitionScreen.Show(scoreManager.GetScore());
+                _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+                startScreen.Draw(_spriteBatch, Vector2.Zero);
+                _spriteBatch.End();
+                return;
             }
 
+            //main game with camera transform
+            _spriteBatch.Begin(
+                samplerState: SamplerState.PointClamp,
+                transformMatrix: Matrix.CreateTranslation(-cameraPosition.X, -cameraPosition.Y, 0)
+            );
+
+            //draw tiles
+            DrawTiles(_spriteBatch);
+            
+            //draw leshyleaf
+            LeshyLeaf.Draw(_spriteBatch);
+            
+            //draw current scene
+            sceneManager.Draw(gameTime);
+
+            if (levelManager.IsTransitioning)
+            {
+                transitionScreen.Draw(_spriteBatch, cameraPosition);
+            }
+
+            _spriteBatch.End();
+
+            base.Draw(gameTime);
+        }
+
+        private void HandleLevelTransition()
+        {
             if (transitionScreen.Update(cameraPosition))
             {
                 levelManager.StartTransition();
-                LoadContent();
-                InitializeGameObjects();
+                LoadTileContent();
                 levelManager.CompleteTransition();
+                string nextScene = $"Level{levelManager.CurrentLevel}";
+                sceneManager.LoadScene(nextScene);
             }
-
-            //check collision for all coins
-            foreach (var coin in coins.ToList())
-            {
-                coin.Update(gameTime);
-                if (!coin.IsCollected() && coin.GetBounds().Intersects(leshyLeaf.GetBounds()))
-                {
-                    coin.Collect();
-                    //1 coin = 1 score
-                    scoreManager.AddPoints(1);
-                }
-            }
-
-            base.Update(gameTime);
         }
 
         private void DrawTiles(SpriteBatch spriteBatch)
@@ -304,50 +276,6 @@ namespace project
             }
         }
 
-
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(backgroundColor);
-
-            //camera position centers leshyleaf horizontally
-            cameraPosition = new Vector2(
-                leshyLeaf.GetBounds().Center.X - GraphicsDevice.Viewport.Width / 3,
-                //leshyLeaf.GetBounds().Center.Y - GraphicsDevice.Viewport.Height * 0.65f //vertically too
-                GraphicsDevice.Viewport.Height * 1.9f
-                );
-
-            //clamp camera to stay within map boundaries
-            ClampCamera();
-
-            //camera transform matrix
-            Matrix cameraTransform = Matrix.CreateTranslation(-cameraPosition.X, -cameraPosition.Y, 0);
-
-            _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: cameraTransform);
-
-            DrawTiles(_spriteBatch);
-            leshyLeaf.Draw(_spriteBatch);
-            foreach (var enemy in enemies)
-            {
-                enemy.Draw(_spriteBatch);
-            }
-            key.Draw(_spriteBatch);
-            foreach (var coin in coins)
-            {
-                coin.Draw(_spriteBatch);
-            }
-
-            //score
-            scoreManager.Draw(_spriteBatch, cameraPosition);
-            //level
-            transitionScreen.Draw(_spriteBatch, cameraPosition);
-            //start screen
-            startScreen.Draw(_spriteBatch, cameraPosition);
-
-            _spriteBatch.End();
-            
-            base.Draw(gameTime);
-        }
-
         private List<Rectangle> CreateTileRectangles(Texture2D texture, int tileWidth, int tileHeight)
         {
             var tileList = new List<Rectangle>();
@@ -380,6 +308,7 @@ namespace project
             cameraPosition.Y = Math.Clamp(cameraPosition.Y, 0, maxY);
         }
 
+        /*
         //generate multiple coins
         private List<Vector2> GenerateCoinPositions()
         {
@@ -408,6 +337,73 @@ namespace project
             };
             return positions;
         }
+        */
 
+        private void LoadTileContent()
+        {
+            //load tiles
+            bg1Texture = Content.Load<Texture2D>("BG1");
+            bg2Texture = Content.Load<Texture2D>("BG2");
+            bg3Texture = Content.Load<Texture2D>("BG3");
+            decorsTexture = Content.Load<Texture2D>("Decors");
+            tilesetTexture = Content.Load<Texture2D>("Tileset");
+            
+            tiles = new List<Rectangle>();
+            //tile rectangle = 16px/16px
+            int tileWidth = 16;
+            int tileHeight = 16;
+            int columns = bg2Texture.Width / tileWidth;
+            int rows = bg2Texture.Height / tileHeight;
+
+            for (int y = 0; y < rows; y++)
+            {
+                for (int x = 0; x < columns; x++)
+                {
+                    tiles.Add(new Rectangle(x * tileWidth, y * tileHeight, tileWidth, tileHeight));
+                }
+            }
+
+            //load csv for correct level
+            tileMap1 = LoadTileMap("Data/Forest_TileLayer1.csv");
+            tileMap2 = LoadTileMap("Data/Forest_TileLayer2.csv");
+            tileMap3 = LoadTileMap("Data/Forest_TileLayer3.csv");
+            tileMap4 = LoadTileMap("Data/Forest_TileLayer4.csv");
+            tileMap5 = LoadTileMap("Data/Forest_TileLayer5.csv");
+            
+            tileManager = new TileManager(tileMap4, 16, 16, 5f);
+
+            /*
+            //game object textures
+            leshyLeafTexture = Content.Load<Texture2D>("LeshyLeaf");
+            porcupineTexture = Content.Load<Texture2D>("Porcupine");
+            dragonflyTexture = Content.Load<Texture2D>("Dragonfly");
+            squirrelTexture = Content.Load<Texture2D>("Squirrel");
+            //extras
+            keyTexture = Content.Load<Texture2D>("Key");
+            coinTexture = Content.Load<Texture2D>("Key"); //key = dungeon collectibles
+            */
+            InitializeGameObjects();
+
+            //initialize tile lists
+            bgTiles = CreateTileRectangles(bg1Texture, tileWidth, tileHeight);
+            decorTiles = CreateTileRectangles(decorsTexture, tileWidth, tileHeight);
+            tilesetTiles = CreateTileRectangles(tilesetTexture, tileWidth, tileHeight);
+
+            //score manager
+            scoreManager = new ScoreManager(Content.Load<SpriteFont>("File"));
+
+            //initialize leshyleaf before scenes
+            leshyLeafTexture = Content.Load<Texture2D>("LeshyLeaf");
+            LeshyLeaf = new LeshyLeaf(leshyLeafTexture, new KeyboardReader(), tileManager);
+        }
+
+        private void UpdateCamera()
+        {
+            cameraPosition = new Vector2(
+                LeshyLeaf.GetBounds().Center.X - GraphicsDevice.Viewport.Width / 3,
+                GraphicsDevice.Viewport.Height * 1.9f
+            );
+            ClampCamera();
+        }
     }
 }

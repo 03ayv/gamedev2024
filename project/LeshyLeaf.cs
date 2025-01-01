@@ -44,6 +44,11 @@ namespace project
         //tilemanager
         TileManager tileManager;
 
+        public Vector2 Position 
+        { 
+            get { return position; }
+        }
+
         public LeshyLeaf(Texture2D texture, IInputReader inputReader, TileManager tileManager)
         {
             leshyLeafTexture = texture;

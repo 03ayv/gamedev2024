@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\03ayv\\Documents\\GameDev2024\\project\\project\\project.csproj": {}
+    "C:\\Users\\03ayv\\Documents\\gamedev_1\\gamedev2024\\project\\project.csproj": {}
   },
   "projects": {
-    "C:\\Users\\03ayv\\Documents\\GameDev2024\\project\\project\\project.csproj": {
+    "C:\\Users\\03ayv\\Documents\\gamedev_1\\gamedev2024\\project\\project.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\03ayv\\Documents\\GameDev2024\\project\\project\\project.csproj",
+        "projectUniqueName": "C:\\Users\\03ayv\\Documents\\gamedev_1\\gamedev2024\\project\\project.csproj",
         "projectName": "project",
-        "projectPath": "C:\\Users\\03ayv\\Documents\\GameDev2024\\project\\project\\project.csproj",
+        "projectPath": "C:\\Users\\03ayv\\Documents\\gamedev_1\\gamedev2024\\project\\project.csproj",
         "packagesPath": "C:\\Users\\03ayv\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\03ayv\\Documents\\GameDev2024\\project\\project\\obj\\",
+        "outputPath": "C:\\Users\\03ayv\\Documents\\gamedev_1\\gamedev2024\\project\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
