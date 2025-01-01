@@ -102,7 +102,7 @@ namespace project.Scenes
             int width = 200;
             int height = 50;
             int radius = 10;
-            Color buttonColor = new Color(139, 0, 0);  // Dark red for game over
+            Color buttonColor = new Color(139, 0, 0);  //dark red
 
             Texture2D texture = new Texture2D(graphicsDevice, width, height);
             Color[] data = new Color[width * height];

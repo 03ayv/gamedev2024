@@ -6,19 +6,27 @@ namespace project.Scenes
     {
         private int currentLevel = 1;
         private bool isTransitioning = false;
+        private const int MAX_LEVEL = 2;
 
         public int CurrentLevel => currentLevel;
         public bool IsTransitioning => isTransitioning;
 
         public void StartTransition()
         {
-            isTransitioning = true;
+            if (currentLevel < MAX_LEVEL)
+            {
+                isTransitioning = true;
+            }
         }
 
         public void CompleteTransition()
         {
-            currentLevel++;
-            isTransitioning = false;
+            if (currentLevel < MAX_LEVEL)
+            {
+                currentLevel++;
+                isTransitioning = false;
+                System.Diagnostics.Debug.WriteLine($"Transitioning to Level {currentLevel}");
+            }
         }
 
         public void Reset()

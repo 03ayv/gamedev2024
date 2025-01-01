@@ -88,9 +88,8 @@ namespace project
         {
             sceneManager = new SceneManager(GraphicsDevice, Content);
             
-            //initialize scenes!
-            sceneManager.AddScene("Level1", new GameScene1(GraphicsDevice, Content));
-            sceneManager.AddScene("Level2", new GameScene2(GraphicsDevice, Content));
+            if (_spriteBatch == null)
+                _spriteBatch = new SpriteBatch(GraphicsDevice);
             
             base.Initialize();
         }
@@ -120,25 +119,25 @@ namespace project
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            //load tile content
-            LoadTileContent();
-            
-            //load screens
             startScreen = new StartScene(Content.Load<SpriteFont>("File"), GraphicsDevice);
             transitionScreen = new LevelTransitionScene(Content.Load<SpriteFont>("File"), GraphicsDevice);
-
-            //load score
+            gameOverScene = new GameOverScene(Content.Load<SpriteFont>("File"), GraphicsDevice);
             ScoreManager = new ScoreManager(Content.Load<SpriteFont>("File"));
 
-            //load initial scene (level 1)
-            var scene = new GameScene1(GraphicsDevice, Content);
-            scene.SetSpriteBatch(_spriteBatch);
-            sceneManager.AddScene("Level1", scene);
-            sceneManager.LoadScene("Level1");
+            LoadTileContent();  // This loads tiles and initializes LeshyLeaf
 
-            //game over
-            gameOverScene = new GameOverScene(Content.Load<SpriteFont>("File"), GraphicsDevice);
+            // Initialize and add both scenes
+            var scene1 = new GameScene1(GraphicsDevice, Content);
+            var scene2 = new GameScene2(GraphicsDevice, Content);
+            
+            scene1.SetSpriteBatch(_spriteBatch);
+            scene2.SetSpriteBatch(_spriteBatch);
+            
+            sceneManager.AddScene("Level1", scene1);
+            sceneManager.AddScene("Level2", scene2);
+            
+            // Load initial scene
+            sceneManager.LoadScene("Level1");
         }
 
         private void InitializeGameObjects()
@@ -246,6 +245,13 @@ namespace project
                 LevelManager.CompleteTransition();
                 string nextScene = $"Level{LevelManager.CurrentLevel}";
                 sceneManager.LoadScene(nextScene);
+                
+                // Re-initialize SpriteBatch for the new scene
+                var currentScene = sceneManager.GetCurrentScene();
+                currentScene.SetSpriteBatch(_spriteBatch);
+                
+                // Reset camera position for new level
+                cameraPosition = new Vector2(0, GraphicsDevice.Viewport.Height * 1.9f);
             }
         }
 

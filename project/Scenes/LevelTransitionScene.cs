@@ -12,13 +12,16 @@ namespace project.Scenes
         private int currentScore;
         private MouseState previousMouseState;
         private Texture2D buttonTexture;
+        private Texture2D backgroundPixel;
 
         public LevelTransitionScene(SpriteFont font, GraphicsDevice graphicsDevice)
         {
             this.font = font;
             isVisible = false;
-            nextLevelButton = new Rectangle(0, 0, 200, 50); //position based on camera
+            nextLevelButton = new Rectangle(300, 300, 200, 50);
             buttonTexture = CreateButtonTexture(graphicsDevice);
+            backgroundPixel = new Texture2D(graphicsDevice, 1, 1);
+            backgroundPixel.SetData(new[] { Color.Black * 0.7f });
         }
 
         public void Show(int score)
@@ -36,20 +39,13 @@ namespace project.Scenes
         {
             if (!isVisible) return false;
 
-            //position button relative to camera
-            nextLevelButton.X = (int)cameraPosition.X + 300;
-            nextLevelButton.Y = (int)cameraPosition.Y + 300;
-
             MouseState currentMouseState = Mouse.GetState();
             bool clicked = false;
 
             if (currentMouseState.LeftButton == ButtonState.Released &&
                 previousMouseState.LeftButton == ButtonState.Pressed)
             {
-                Point mousePosition = new Point(
-                    currentMouseState.X + (int)cameraPosition.X,
-                    currentMouseState.Y + (int)cameraPosition.Y
-                );
+                Point mousePosition = new Point(currentMouseState.X, currentMouseState.Y);
 
                 if (nextLevelButton.Contains(mousePosition))
                 {
@@ -66,31 +62,18 @@ namespace project.Scenes
         {
             if (!isVisible) return;
 
-            //semi-transparent background
-            Texture2D pixel = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
-            pixel.SetData(new[] { Color.Black * 0.7f });
-
-            Rectangle fullScreen = new Rectangle(
-                (int)cameraPosition.X,
-                (int)cameraPosition.Y,
+            Rectangle fullScreen = new Rectangle(0, 0,
                 spriteBatch.GraphicsDevice.Viewport.Width,
-                spriteBatch.GraphicsDevice.Viewport.Height
-            );
+                spriteBatch.GraphicsDevice.Viewport.Height);
 
-            spriteBatch.Draw(pixel, fullScreen, Color.White);
+            spriteBatch.Draw(backgroundPixel, fullScreen, Color.White);
 
-            //show score
             string scoreText = $"Current Score: {currentScore}";
-            Vector2 scorePosition = new Vector2(
-                cameraPosition.X + 300,
-                cameraPosition.Y + 200
-            );
+            Vector2 scorePosition = new Vector2(300, 200);
             spriteBatch.DrawString(font, scoreText, scorePosition, Color.White);
 
-            //draw button
             spriteBatch.Draw(buttonTexture, nextLevelButton, Color.White);
 
-            //next level button text
             string buttonText = "NEXT LEVEL";
             Vector2 textSize = font.MeasureString(buttonText);
             Vector2 textPosition = new Vector2(
