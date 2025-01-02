@@ -353,6 +353,11 @@ namespace project
         {
             queuedResetPosition = newPosition;
         }
+
+        public bool IsAttacking
+        {
+            get { return isAttacking; }
+        }
     }
 }
 

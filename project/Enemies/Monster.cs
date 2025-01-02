@@ -25,6 +25,16 @@ namespace project.Enemies
         private float patrolDistance = 170f;
         private float startX;
 
+        // Add damage and flicker properties
+        private bool isInvulnerable = false;
+        private float invulnerabilityTimer = 0f;
+        private const float INVULNERABILITY_DURATION = 0.5f;
+        private bool isVisible = true;
+        private float flickerInterval = 0.1f;
+        private float flickerTimer = 0f;
+        private const float ATTACK_RANGE = 100f;
+        private int health = 3;
+
         public Monster(Texture2D texture, Vector2 startPosition)
         {
             monsterTexture = texture;
@@ -53,8 +63,22 @@ namespace project.Enemies
 
         public void Update(GameTime gameTime)
         {
-            Move();
-            walking.Update(gameTime);
+            if (health > 0)
+            {
+                Move();
+                walking.Update(gameTime);
+                UpdateInvulnerability(gameTime);
+
+                // Check if LeshyLeaf is attacking within range
+                if (Game1.LeshyLeaf.IsAttacking)
+                {
+                    float distance = Vector2.Distance(position, Game1.LeshyLeaf.Position);
+                    if (distance <= ATTACK_RANGE && !isInvulnerable)
+                    {
+                        TakeDamage();
+                    }
+                }
+            }
         }
 
         private void Move()
@@ -74,15 +98,43 @@ namespace project.Enemies
             }
         }
 
+        private void TakeDamage()
+        {
+            health--;
+            isInvulnerable = true;
+            isVisible = false;
+        }
+
+        private void UpdateInvulnerability(GameTime gameTime)
+        {
+            if (isInvulnerable)
+            {
+                invulnerabilityTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                flickerTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                if (flickerTimer >= flickerInterval)
+                {
+                    isVisible = !isVisible;
+                    flickerTimer = 0;
+                }
+
+                if (invulnerabilityTimer >= INVULNERABILITY_DURATION)
+                {
+                    isInvulnerable = false;
+                    isVisible = true;
+                    invulnerabilityTimer = 0;
+                }
+            }
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
-            //adjust size (1.0f = original size)
-            float scale = 3f;
-
-            //set which side to face
-            var effects = isFacingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            //walking animation
-            spriteBatch.Draw(monsterTexture, position, walking.CurrentFrame.SourceRectangle, Color.White, 0f, Vector2.Zero, scale, effects, 0f);
+            if (isVisible && health > 0)
+            {
+                float scale = 3f;
+                var effects = isFacingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+                spriteBatch.Draw(monsterTexture, position, walking.CurrentFrame.SourceRectangle, Color.White, 0f, Vector2.Zero, scale, effects, 0f);
+            }
         }
 
         public Rectangle GetBounds()
