@@ -24,10 +24,11 @@ namespace project
         private Animation currentAnimation;
 
         private Vector2 position;
+        //momentum
         private float horizontalVelocity = 0f;
         private float acceleration = 0.3f;
         private float deceleration = 0.5f;
-        private float maxSpeed = 4f;
+        private float maxSpeed = 5f;
 
         //input
         IInputReader inputReader;
@@ -181,25 +182,9 @@ namespace project
             //horizontal movement
             if (direction.X != 0)
             {
-                Rectangle nextHorizontalBounds_ = new Rectangle(
-                    (int)(position.X + direction.X) + 16,
-                    (int)position.Y + 16,
-                    32 * 4 - 32,
-                    32 * 4 - 32
-                );
-
                 //accelerate
                 horizontalVelocity += direction.X * acceleration;
                 horizontalVelocity = MathHelper.Clamp(horizontalVelocity, -maxSpeed, maxSpeed);
-
-                //set facing direction
-                isFacingRight = direction.X > 0;
-
-                //check for wall collision
-                if (!tileManager.CheckCollision(nextHorizontalBounds_, true))
-                {
-                    position.X += direction.X;
-                }
             }
             else
             {
@@ -210,12 +195,21 @@ namespace project
                     horizontalVelocity = Math.Min(0, horizontalVelocity + deceleration);
             }
 
+            //set which side to face
+            if (direction.X < 0)
+                isFacingRight = false;
+            else if (direction.X > 0)
+                isFacingRight = true;
+
+            currentAnimation = direction.X != 0 ? walking : idle;
+
+            //check next position with current velocity
             Rectangle nextHorizontalBounds = new Rectangle(
-                    (int)(position.X + direction.X) + 16,
-                    (int)position.Y + 16,
-                    32 * 4 - 32,
-                    32 * 4 - 32
-                );
+                (int)(position.X + horizontalVelocity) + 16,
+                (int)position.Y + 16,
+                32 * 4 - 32,
+                32 * 4 - 32
+            );
 
             if (!tileManager.CheckCollision(nextHorizontalBounds, true))
             {
@@ -226,14 +220,6 @@ namespace project
                 //stop momentum on collision
                 horizontalVelocity = 0;
             }
-
-            //set which side to face
-            if (direction.X < 0)
-                isFacingRight = false;
-            else if (direction.X > 0)
-                isFacingRight = true;
-
-            currentAnimation = direction.X != 0 ? walking : idle;
 
             //jumping
             if (direction.Y < 0 && jumpCount < MAX_JUMPS)
@@ -302,7 +288,7 @@ namespace project
             jumpCount = 0;
             isFacingRight = true;
             currentAnimation = idle;
-            // Reset invulnerability states
+            //reset invulnerability states
             isInvulnerable = false;
             isVisible = true;
             invulnerabilityTimer = 0f;
