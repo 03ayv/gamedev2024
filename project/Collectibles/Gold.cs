@@ -1,29 +1,29 @@
+﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using project.Animations;
 using project.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace project.Collectibles
 {
-    public class Key : ICollectible
+    public class Gold : ICollectible
     {
-        private Texture2D keyTexture;
+        private Texture2D goldTexture;
         private Animation idle;
         private Vector2 position;
         private bool isCollected = false;
 
-        public Key(Texture2D texture, Vector2 startPosition)
+        public Gold(Texture2D texture, Vector2 startPosition)
         {
-            keyTexture = texture;
+            goldTexture = texture;
             position = startPosition;
 
             idle = new Animation();
-            idle.AddFrame(new AnimationFrame(new Rectangle(0, 80, 16, 16)));
-            idle.AddFrame(new AnimationFrame(new Rectangle(16, 80, 16, 16)));
-            idle.AddFrame(new AnimationFrame(new Rectangle(32, 80, 16, 16)));
-            idle.AddFrame(new AnimationFrame(new Rectangle(48, 80, 16, 16)));
-            idle.AddFrame(new AnimationFrame(new Rectangle(64, 80, 16, 16)));
-            idle.AddFrame(new AnimationFrame(new Rectangle(80, 80, 16, 16)));
+            idle.AddFrame(new AnimationFrame(new Rectangle(128, 135, 28, 28)));
 
         }
 
@@ -42,7 +42,7 @@ namespace project.Collectibles
                 float scale = 4f;
 
                 //idle animation
-                spriteBatch.Draw(keyTexture, position, idle.CurrentFrame.SourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(goldTexture, position, idle.CurrentFrame.SourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             }
         }
 

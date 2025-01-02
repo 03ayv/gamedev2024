@@ -15,5 +15,6 @@ namespace project.Interfaces
         void Draw(SpriteBatch spriteBatch);
 
         Rectangle GetBounds(); //collision detection
+
     }
 }

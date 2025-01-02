@@ -26,9 +26,9 @@ namespace project.Scenes
             var porcupineTexture = content.Load<Texture2D>("Porcupine");
             var dragonflyTexture = content.Load<Texture2D>("Dragonfly");
             var squirrelTexture = content.Load<Texture2D>("Squirrel");
-            var keyTexture = content.Load<Texture2D>("Key");
+            var goldTexture = content.Load<Texture2D>("Key");
             var coinTexture = content.Load<Texture2D>("Key");
-            InitializeGameObjects(leshyLeafTexture, porcupineTexture, dragonflyTexture, squirrelTexture, keyTexture, coinTexture);
+            InitializeGameObjects(leshyLeafTexture, porcupineTexture, dragonflyTexture, squirrelTexture, goldTexture, coinTexture);
         }
 
         public override void Initialize()
@@ -70,7 +70,7 @@ namespace project.Scenes
         }
 
         private void InitializeGameObjects(Texture2D leshyLeafTexture, Texture2D porcupineTexture, Texture2D dragonflyTexture, 
-            Texture2D squirrelTexture, Texture2D keyTexture, Texture2D coinTexture)
+            Texture2D squirrelTexture, Texture2D goldTexture, Texture2D coinTexture)
         {
             //more enemies
             enemies = new List<IGameObject>
@@ -85,7 +85,7 @@ namespace project.Scenes
                 //new Squirrel(squirrelTexture, new Vector2(2000, 1185), Game1.LeshyLeaf)
             };
 
-            key = new Key(keyTexture, new Vector2(2200, 1190));
+            key = new Gold(goldTexture, new Vector2(2170, 1200));
             
             List<Vector2> coinPositions = GenerateCoinPositions();
             coins = coinPositions.Select(position => new Coin(coinTexture, position)).ToList();

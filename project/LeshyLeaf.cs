@@ -122,13 +122,12 @@ namespace project
         {
             if (isInvulnerable)
             {
-                // Existing invulnerability code
                 return;
             }
 
             var direction = inputReader.ReadInput();
 
-            // Check for attack input
+            //attack input = keyboard
             if (Keyboard.GetState().IsKeyDown(Keys.Space) && !isAttacking)
             {
                 isAttacking = true;
@@ -136,7 +135,7 @@ namespace project
                 currentAnimation = attack;
             }
 
-            // Handle attack state
+            //attack state
             if (isAttacking)
             {
                 attackTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -145,7 +144,7 @@ namespace project
                     isAttacking = false;
                     currentAnimation = idle;
                 }
-                // Skip movement processing during attack
+                //pause movement during attack
                 currentAnimation.Update(gameTime);
                 return;
             }

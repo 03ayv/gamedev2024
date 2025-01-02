@@ -18,7 +18,7 @@ namespace project.Scenes
         
         //game objects
         protected List<IGameObject> enemies;
-        protected Key key;
+        protected ICollectible key;
         protected List<Coin> coins;
         protected ScoreManager scoreManager;
         
