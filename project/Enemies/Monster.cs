@@ -163,11 +163,17 @@ namespace project.Enemies
 
         public Rectangle GetBounds()
         {
+            //is dead, no collision
+            if (isDying || deathAnimationComplete)
+            {
+                return Rectangle.Empty;
+            }
+
             return new Rectangle(
                 (int)position.X + 32,
                 (int)position.Y + 32,
-                64 * 2,
-                64 * 2
+                64,
+                64
             );
         }
     }
