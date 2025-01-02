@@ -20,6 +20,7 @@ namespace project
         private Texture2D leshyLeafTexture;
         private Animation walking;
         private Animation idle;
+        private Animation attack;
         private Animation currentAnimation;
 
         private Vector2 position;
@@ -58,6 +59,11 @@ namespace project
 
         private Vector2? queuedResetPosition = null;
 
+        //attack
+        private bool isAttacking = false;
+        private float attackDuration = 0.6f;
+        private float attackTimer = 0f;
+
         public Vector2 Position 
         { 
             get { return position; }
@@ -87,6 +93,16 @@ namespace project
             idle.AddFrame(new AnimationFrame(new Rectangle(192, 8, 32, 32)));
             idle.AddFrame(new AnimationFrame(new Rectangle(224, 8, 32, 32)));
 
+            attack = new Animation();
+            attack.AddFrame(new AnimationFrame(new Rectangle(0, 72, 32, 32)));
+            attack.AddFrame(new AnimationFrame(new Rectangle(32, 72, 32, 32)));
+            attack.AddFrame(new AnimationFrame(new Rectangle(64, 72, 32, 32)));
+            attack.AddFrame(new AnimationFrame(new Rectangle(96, 72, 32, 32)));
+            attack.AddFrame(new AnimationFrame(new Rectangle(128, 72, 32, 32)));
+            attack.AddFrame(new AnimationFrame(new Rectangle(160, 72, 32, 32)));
+            attack.AddFrame(new AnimationFrame(new Rectangle(192, 72, 32, 32)));
+            attack.AddFrame(new AnimationFrame(new Rectangle(0, 72, 32, 32)));
+
             position = new Vector2(0, 1185);
 
             //set current animation
@@ -104,6 +120,36 @@ namespace project
 
         public void Update(GameTime gameTime)
         {
+            if (isInvulnerable)
+            {
+                // Existing invulnerability code
+                return;
+            }
+
+            var direction = inputReader.ReadInput();
+
+            // Check for attack input
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) && !isAttacking)
+            {
+                isAttacking = true;
+                attackTimer = 0f;
+                currentAnimation = attack;
+            }
+
+            // Handle attack state
+            if (isAttacking)
+            {
+                attackTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (attackTimer >= attackDuration)
+                {
+                    isAttacking = false;
+                    currentAnimation = idle;
+                }
+                // Skip movement processing during attack
+                currentAnimation.Update(gameTime);
+                return;
+            }
+
             //flickering
             if (isInvulnerable)
             {
@@ -131,7 +177,6 @@ namespace project
                 return; //pause movement during flickering
             }
 
-            var direction = inputReader.ReadInput();
             //direction *= 4; //adjust speed
 
             //horizontal movement
