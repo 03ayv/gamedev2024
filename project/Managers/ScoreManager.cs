@@ -23,8 +23,8 @@ namespace project.Managers
         public void Draw(SpriteBatch spriteBatch, Vector2 cameraPosition)
         {
             position = new Vector2(
-                cameraPosition.X + 650, //adjust to fit screen
-                cameraPosition.Y - 20
+                cameraPosition.X + 630, //adjust to fit screen
+                cameraPosition.Y - 25
             );
 
             string scoreText = $"Score: {score}";
