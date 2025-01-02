@@ -58,16 +58,15 @@ namespace project.Scenes
 
         public override void Draw(GameTime gameTime)
         {
-            foreach (var enemy in enemies)
-            {
-                enemy.Draw(spriteBatch);
-            }
             key?.Draw(spriteBatch);
             foreach (var coin in coins)
             {
                 coin.Draw(spriteBatch);
             }
-
+            foreach (var enemy in enemies)
+            {
+                enemy.Draw(spriteBatch);
+            }
         }
 
         private void InitializeGameObjects(Texture2D leshyLeafTexture, Texture2D porcupineTexture, 
@@ -84,7 +83,7 @@ namespace project.Scenes
                 new Dragonfly(dragonflyTexture, new Vector2(1500, 1000)),
                 new Squirrel(squirrelTexture, new Vector2(300, 1185), Game1.LeshyLeaf),
                 new Squirrel(squirrelTexture, new Vector2(1500, 1185), Game1.LeshyLeaf),
-                new Monster(monsterTexture, new Vector2(2000,1090))
+                new Monster(monsterTexture, new Vector2(2000,1092))
                 //new Squirrel(squirrelTexture, new Vector2(2000, 1185), Game1.LeshyLeaf)
             };
 

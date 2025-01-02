@@ -13,7 +13,8 @@ namespace project.Enemies
     public class Monster : IGameObject
     {
         private Texture2D monsterTexture;
-        private Animation walking;
+        private Animation walking; 
+        private Animation death;
         private Vector2 position;
         private Vector2 speed;
 
@@ -36,6 +37,14 @@ namespace project.Enemies
             walking.AddFrame(new AnimationFrame(new Rectangle(320, 64, 64, 64)));
             walking.AddFrame(new AnimationFrame(new Rectangle(384, 64, 64, 64)));
             walking.AddFrame(new AnimationFrame(new Rectangle(448, 64, 64, 64)));
+
+            death = new Animation();
+            death.AddFrame(new AnimationFrame(new Rectangle(0, 256, 64, 64)));
+            death.AddFrame(new AnimationFrame(new Rectangle(64, 256, 64, 64)));
+            death.AddFrame(new AnimationFrame(new Rectangle(128, 256, 64, 64)));
+            death.AddFrame(new AnimationFrame(new Rectangle(192, 256, 64, 64)));
+            death.AddFrame(new AnimationFrame(new Rectangle(256, 256, 64, 64)));
+            death.AddFrame(new AnimationFrame(new Rectangle(320, 256, 64, 64)));
 
             position = startPosition;
             startX = startPosition.X; //initial position
@@ -79,8 +88,8 @@ namespace project.Enemies
         public Rectangle GetBounds()
         {
             return new Rectangle(
-                (int)position.X + 16,
-                (int)position.Y + 16,
+                (int)position.X + 32,
+                (int)position.Y + 32,
                 64 * 2,
                 64 * 2
             );
