@@ -12,7 +12,7 @@ namespace project.Scenes
         private SpriteFont font;
         private MouseState previousMouseState;
         private Texture2D buttonTexture;
-        private string title = "LESHY LEAF";
+        private string title = "LESHY LEAF ADVENTURES";
 
         public StartScene(SpriteFont font, GraphicsDevice graphicsDevice)
         {

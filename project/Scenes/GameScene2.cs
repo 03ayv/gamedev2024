@@ -152,7 +152,9 @@ namespace project.Scenes
             if (key != null && Game1.LeshyLeaf.GetBounds().Intersects(key.GetBounds()))
             {
                 key.Collect();
-                Game1.LevelManager.StartTransition();
+                key.Collect();
+                Game1.ScoreManager.AddPoints(100); // Bonus points for collecting gold
+                Game1.Instance.ShowVictoryScene(Game1.ScoreManager.GetScore());
             }
         }
     }

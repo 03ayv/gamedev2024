@@ -23,7 +23,7 @@ namespace project.Scenes
             this.font = font;
             isVisible = false;
             playAgainButton = new Rectangle(300, 350, 200, 50);
-            exitButton = new Rectangle(300, 450, 200, 50);
+            exitButton = new Rectangle(300, 410, 200, 50);
             buttonTexture = CreateButtonTexture(graphicsDevice);
             backgroundPixel = new Texture2D(graphicsDevice, 1, 1);
             backgroundPixel.SetData(new[] { Color.Black * 0.7f });

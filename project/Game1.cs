@@ -210,6 +210,18 @@ namespace project
                 return;
             }
 
+            if (victoryScene.IsVisible)
+            {
+                if (victoryScene.Update(cameraPosition))
+                {
+                    LevelManager.Reset();
+                    ScoreManager.Reset();
+                    sceneManager.LoadScene("Level1");
+                    return;
+                }
+                return;
+            }
+
             LeshyLeaf.Update(gameTime);
             UpdateCamera();
             sceneManager.Update(gameTime);
@@ -430,6 +442,14 @@ namespace project
         public static void ResumeGame()
         {
             IsGamePaused = false;
+        }
+
+        public void ShowVictoryScene(int score)
+        {
+            if (!victoryScene.IsVisible)
+            {
+                victoryScene.Show(score);
+            }
         }
     }
 }
