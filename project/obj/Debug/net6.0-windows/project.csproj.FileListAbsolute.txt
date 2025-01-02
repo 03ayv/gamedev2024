@@ -96,3 +96,4 @@ C:\Users\03ayv\Documents\gamedev_1\gamedev2024\project\bin\Debug\net6.0-windows\
 C:\Users\03ayv\Documents\gamedev_1\gamedev2024\project\obj\Debug\net6.0-windows\project.csproj.Up2Date
 C:\Users\03ayv\Documents\gamedev_1\gamedev2024\project\obj\Debug\net6.0-windows\project.genruntimeconfig.cache
 C:\Users\03ayv\Documents\gamedev_1\gamedev2024\project\obj\Debug\net6.0-windows\ref\project.dll
+C:\Users\03ayv\Documents\gamedev_1\gamedev2024\project\bin\Debug\net6.0-windows\Content\heart.xnb

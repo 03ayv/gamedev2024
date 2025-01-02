@@ -6,6 +6,7 @@ using project.Enemies;
 using project.Interfaces;
 using project.Tiles;
 using System.Collections.Generic;
+using project.Managers;
 
 namespace project.Scenes
 {
@@ -25,6 +26,7 @@ namespace project.Scenes
         protected const int TILE_WIDTH = 16;
         protected const int TILE_HEIGHT = 16;
         protected const float SCALE = 5f;
+
 
         public BaseScene(GraphicsDevice graphicsDevice, ContentManager content)
         {

@@ -122,7 +122,15 @@ namespace project.Scenes
             {
                 if (Game1.LeshyLeaf.GetBounds().Intersects(enemy.GetBounds()))
                 {
-                    Game1.GameOver = true;
+                    Game1.LivesManager.LoseLife();
+                    if (Game1.LivesManager.IsGameOver())
+                    {
+                        Game1.GameOver = true;
+                    }
+                    else
+                    {
+                        Game1.LeshyLeaf.ResetPosition(new Vector2(50, 1185));
+                    }
                     return;
                 }
             }

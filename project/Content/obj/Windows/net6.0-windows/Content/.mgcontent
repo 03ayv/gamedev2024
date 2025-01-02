@@ -10,6 +10,7 @@
     <File>C:/Users/03ayv/Documents/gamedev_1/gamedev2024/project/Content/Decors.png</File>
     <File>C:/Users/03ayv/Documents/gamedev_1/gamedev2024/project/Content/Dragonfly.png</File>
     <File>C:/Users/03ayv/Documents/gamedev_1/gamedev2024/project/Content/File.spritefont</File>
+    <File>C:/Users/03ayv/Documents/gamedev_1/gamedev2024/project/Content/heart.png</File>
     <File>C:/Users/03ayv/Documents/gamedev_1/gamedev2024/project/Content/Key.png</File>
     <File>C:/Users/03ayv/Documents/gamedev_1/gamedev2024/project/Content/LeshyLeaf.png</File>
     <File>C:/Users/03ayv/Documents/gamedev_1/gamedev2024/project/Content/Porcupine.png</File>
@@ -17,6 +18,7 @@
     <File>C:/Users/03ayv/Documents/gamedev_1/gamedev2024/project/Content/Tileset.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

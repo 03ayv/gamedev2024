@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace project
+namespace project.Managers
 {
     public class ScoreManager
     {
@@ -41,4 +41,4 @@ namespace project
             score = 0;
         }
     }
-} 
+}

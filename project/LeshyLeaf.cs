@@ -107,11 +107,11 @@ namespace project
                     32 * 4 - 32
                 );
 
-                // Accelerate in the direction of input
+                //accelerate
                 horizontalVelocity += direction.X * acceleration;
                 horizontalVelocity = MathHelper.Clamp(horizontalVelocity, -maxSpeed, maxSpeed);
 
-                // Set facing direction based on input direction
+                //set facing direction
                 isFacingRight = direction.X > 0;
 
                 //check for wall collision
@@ -122,7 +122,7 @@ namespace project
             }
             else
             {
-                // Decelerate when no input
+                //decelerate when no input
                 if (horizontalVelocity > 0)
                     horizontalVelocity = Math.Max(0, horizontalVelocity - deceleration);
                 else if (horizontalVelocity < 0)
@@ -142,7 +142,7 @@ namespace project
             }
             else
             {
-                // Stop momentum on collision
+                //stop momentum on collision
                 horizontalVelocity = 0;
             }
 

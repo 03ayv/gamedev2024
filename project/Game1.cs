@@ -5,6 +5,7 @@ using project.Collectibles;
 using project.Enemies;
 using project.Input;
 using project.Interfaces;
+using project.Managers;
 using project.Scenes;
 using project.Tiles;
 using SharpDX.Direct2D1.Effects;
@@ -75,6 +76,10 @@ namespace project
         //game over
         private GameOverScene gameOverScene;
 
+        //lives
+        public static LivesManager LivesManager { get; private set; }
+        private Texture2D heartTexture;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -124,9 +129,9 @@ namespace project
             gameOverScene = new GameOverScene(Content.Load<SpriteFont>("File"), GraphicsDevice);
             ScoreManager = new ScoreManager(Content.Load<SpriteFont>("File"));
 
-            LoadTileContent();  // This loads tiles and initializes LeshyLeaf
+            LoadTileContent();
 
-            // Initialize and add both scenes
+            //initialize and add scene
             var scene1 = new GameScene1(GraphicsDevice, Content);
             var scene2 = new GameScene2(GraphicsDevice, Content);
             
@@ -136,8 +141,12 @@ namespace project
             sceneManager.AddScene("Level1", scene1);
             sceneManager.AddScene("Level2", scene2);
             
-            // Load initial scene
+            //load initial scene
             sceneManager.LoadScene("Level1");
+
+            //load lives
+            heartTexture = Content.Load<Texture2D>("heart");
+            LivesManager = new LivesManager(heartTexture, new Vector2(10, 0));
         }
 
         private void InitializeGameObjects()
@@ -218,6 +227,7 @@ namespace project
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
             Vector2 scorePosition = new Vector2(50, 50);  //fixed position!
             ScoreManager.Draw(_spriteBatch, scorePosition);
+            LivesManager.Draw(_spriteBatch);
 
             if (LevelManager.IsTransitioning)
             {
@@ -253,7 +263,7 @@ namespace project
                 //reset position!
                 LeshyLeaf.ResetPosition(new Vector2(50, 1185));
                 
-                //reset camera too
+                //
                 cameraPosition = new Vector2(0, GraphicsDevice.Viewport.Height * 1.9f);
             }
         }
