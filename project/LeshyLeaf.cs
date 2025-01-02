@@ -56,6 +56,8 @@ namespace project
         private float flickerInterval = 0.1f;
         private float flickerTimer = 0f;
 
+        private Vector2? queuedResetPosition = null;
+
         public Vector2 Position 
         { 
             get { return position; }
@@ -118,6 +120,12 @@ namespace project
                 {
                     isInvulnerable = false;
                     isVisible = true;
+                    
+                    if (queuedResetPosition.HasValue)
+                    {
+                        ResetPosition(queuedResetPosition.Value);
+                        queuedResetPosition = null;
+                    }
                 }
 
                 return; //pause movement during flickering
@@ -280,8 +288,20 @@ namespace project
                     isInvulnerable = false;
                     isVisible = true;
                     Game1.ResumeGame();
+                    
+                    if (queuedResetPosition.HasValue)
+                    {
+                        ResetPosition(queuedResetPosition.Value);
+                        queuedResetPosition = null;
+                    }
                 }
             }
+        }
+
+        //wait for flickering to reset position
+        public void QueuePositionReset(Vector2 newPosition)
+        {
+            queuedResetPosition = newPosition;
         }
     }
 }

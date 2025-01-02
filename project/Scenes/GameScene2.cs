@@ -133,8 +133,8 @@ namespace project.Scenes
                     }
                     else
                     {
-                        float resetX = Math.Max(50, Game1.LeshyLeaf.Position.X - 50);
-                        Game1.LeshyLeaf.ResetPosition(new Vector2(resetX, 1185));
+                        //wait for flickering before resetting position
+                        Game1.LeshyLeaf.QueuePositionReset(new Vector2(Math.Max(50, Game1.LeshyLeaf.Position.X - 50), 1185));
                     }
                     return;
                 }
