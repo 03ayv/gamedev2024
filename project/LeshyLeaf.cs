@@ -258,6 +258,12 @@ namespace project
             jumpCount = 0;
             isFacingRight = true;
             currentAnimation = idle;
+            // Reset invulnerability states
+            isInvulnerable = false;
+            isVisible = true;
+            invulnerabilityTimer = 0f;
+            flickerTimer = 0f;
+            queuedResetPosition = null;
         }
 
         //flicker + game pause

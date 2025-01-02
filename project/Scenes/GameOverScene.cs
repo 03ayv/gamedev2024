@@ -44,7 +44,7 @@ namespace project.Scenes
             {
                 if (tryAgainButton.Contains(mousePosition))
                 {
-                    Game1.ResumeGame();
+                    //Game1.ResumeGame();
                     //reset everything!!
                     Game1.LivesManager.Reset();
                     Game1.ScoreManager.Reset();
