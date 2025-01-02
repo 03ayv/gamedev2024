@@ -18,6 +18,8 @@ namespace project
 {
     public class Game1 : Game
     {
+        public static Game1 Instance { get; private set; }
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private SceneManager sceneManager;
@@ -85,6 +87,7 @@ namespace project
 
         public Game1()
         {
+            Instance = this;
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -182,6 +185,7 @@ namespace project
                 if (gameOverScene.Update(cameraPosition))
                 {
                     GameOver = false;
+                    IsGamePaused = false;
                     LevelManager.Reset();
                     ScoreManager.Reset();
                     sceneManager.LoadScene("Level1");

@@ -38,20 +38,24 @@ namespace project.Scenes
             if (!isVisible) return false;
 
             MouseState currentMouseState = Mouse.GetState();
+            Point mousePosition = new Point(currentMouseState.X, currentMouseState.Y);
 
-            if (currentMouseState.LeftButton == ButtonState.Released &&
-                previousMouseState.LeftButton == ButtonState.Pressed)
+            if (currentMouseState.LeftButton == ButtonState.Released && previousMouseState.LeftButton == ButtonState.Pressed)
             {
-                Point mousePosition = new Point(currentMouseState.X, currentMouseState.Y);
-
                 if (tryAgainButton.Contains(mousePosition))
                 {
+                    Game1.ResumeGame();
+                    //reset everything!!
+                    Game1.LivesManager.Reset();
+                    Game1.ScoreManager.Reset();
+                    Game1.LevelManager.Reset();
+                    Game1.LeshyLeaf.ResetPosition(new Vector2(50, 1185));
                     Hide();
                     return true;
                 }
                 else if (exitButton.Contains(mousePosition))
                 {
-                    System.Environment.Exit(0);
+                    Game1.Instance.Exit();
                 }
             }
 
