@@ -84,7 +84,7 @@ namespace project.Scenes
                 new Dragonfly(dragonflyTexture, new Vector2(1500, 1000)),
                 new Squirrel(squirrelTexture, new Vector2(300, 1185), Game1.LeshyLeaf),
                 new Squirrel(squirrelTexture, new Vector2(1500, 1185), Game1.LeshyLeaf),
-                new Monster(monsterTexture, new Vector2(2000,1092))
+                new Monster(monsterTexture, new Vector2(2000,1090))
                 //new Squirrel(squirrelTexture, new Vector2(2000, 1185), Game1.LeshyLeaf)
             };
 

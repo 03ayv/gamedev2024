@@ -81,8 +81,8 @@ namespace project.Enemies
             return new Rectangle(
                 (int)position.X + 16,
                 (int)position.Y + 16,
-                32,
-                32
+                64 * 2,
+                64 * 2
             );
         }
     }
