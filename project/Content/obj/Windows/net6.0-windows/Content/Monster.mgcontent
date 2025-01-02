@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/Users/03ayv/Documents/gamedev_1/gamedev2024/project/Content/BG3.png</SourceFile>
-  <SourceTime>2025-01-01T16:36:53.1709982+01:00</SourceTime>
-  <DestFile>C:/Users/03ayv/Documents/gamedev_1/gamedev2024/project/Content/bin/Windows/BG3.xnb</DestFile>
-  <DestTime>2025-01-02T21:43:25.4416051+01:00</DestTime>
+  <SourceFile>C:/Users/03ayv/Documents/gamedev_1/gamedev2024/project/Content/Monster.png</SourceFile>
+  <SourceTime>2025-01-02T21:42:20.7073741+01:00</SourceTime>
+  <DestFile>C:/Users/03ayv/Documents/gamedev_1/gamedev2024/project/Content/bin/Windows/Content/Monster.xnb</DestFile>
+  <DestTime>2025-01-02T21:50:14.6587748+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2022-07-26T13:44:56+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

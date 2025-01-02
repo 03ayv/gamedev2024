@@ -30,6 +30,8 @@ namespace project.Scenes
             var squirrelTexture = content.Load<Texture2D>("Squirrel");
             var keyTexture = content.Load<Texture2D>("Key");
             var coinTexture = content.Load<Texture2D>("Key");
+            //var monsterTexture = content.Load<Texture2D>("Monster");
+            //InitializeGameObjects(leshyLeafTexture, porcupineTexture, dragonflyTexture, squirrelTexture, keyTexture, coinTexture, monsterTexture);
             //initialize game objects
             InitializeGameObjects(leshyLeafTexture, porcupineTexture, dragonflyTexture, squirrelTexture, keyTexture, coinTexture);
         }
@@ -90,7 +92,9 @@ namespace project.Scenes
                 new Dragonfly(dragonflyTexture, new Vector2(400, 950)),
                 new Dragonfly(dragonflyTexture, new Vector2(1500, 1000)),
                 new Squirrel(squirrelTexture, new Vector2(300, 1185), Game1.LeshyLeaf),
-                new Squirrel(squirrelTexture, new Vector2(2000, 1185), Game1.LeshyLeaf)
+                new Squirrel(squirrelTexture, new Vector2(2000, 1185), Game1.LeshyLeaf),
+                //
+                //new Monster(monsterTexture, new Vector2(300,1092))
             };
 
             key = new Key(keyTexture, new Vector2(2200, 1190));
