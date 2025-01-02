@@ -85,6 +85,8 @@ namespace project
         //add game pause for flickering
         public static bool IsGamePaused { get; private set; }
 
+        private VictoryScene victoryScene;
+
         public Game1()
         {
             Instance = this;
@@ -153,6 +155,8 @@ namespace project
             //load lives
             heartTexture = Content.Load<Texture2D>("heart");
             LivesManager = new LivesManager(heartTexture, new Vector2(10, 0));
+
+            victoryScene = new VictoryScene(Content.Load<SpriteFont>("File"), GraphicsDevice);
         }
 
         private void InitializeGameObjects()
@@ -250,6 +254,11 @@ namespace project
             if (GameOver)
             {
                 gameOverScene.Draw(_spriteBatch, cameraPosition);
+            }
+
+            if (victoryScene.IsVisible)
+            {
+                victoryScene.Draw(_spriteBatch, cameraPosition);
             }
             _spriteBatch.End();
 
