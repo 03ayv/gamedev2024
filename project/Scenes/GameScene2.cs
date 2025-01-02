@@ -9,6 +9,7 @@ using project.Interfaces;
 using project.Enemies;
 using project.Collectibles;
 using System.Linq;
+using System;
 
 namespace project.Scenes
 {
@@ -129,7 +130,8 @@ namespace project.Scenes
                     }
                     else
                     {
-                        Game1.LeshyLeaf.ResetPosition(new Vector2(50, 1185));
+                        float resetX = Math.Max(50, Game1.LeshyLeaf.Position.X - 50);
+                        Game1.LeshyLeaf.ResetPosition(new Vector2(resetX, 1185));
                     }
                     return;
                 }

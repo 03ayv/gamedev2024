@@ -10,6 +10,7 @@ using project.Enemies;
 using project.Collectibles;
 using System.Linq;
 using project.Managers;
+using System;
 
 namespace project.Scenes
 {
@@ -150,8 +151,9 @@ namespace project.Scenes
             //check enemy collision
             foreach (var enemy in enemies)
             {
-                if (Game1.LeshyLeaf.GetBounds().Intersects(enemy.GetBounds()))
+                if (!Game1.LeshyLeaf.IsInvulnerable && Game1.LeshyLeaf.GetBounds().Intersects(enemy.GetBounds()))
                 {
+                    Game1.LeshyLeaf.StartInvulnerability();
                     Game1.LivesManager.LoseLife();
                     if (Game1.LivesManager.IsGameOver())
                     {
@@ -159,7 +161,8 @@ namespace project.Scenes
                     }
                     else
                     {
-                        Game1.LeshyLeaf.ResetPosition(new Vector2(50, 1185));
+                        float resetX = Math.Max(50, Game1.LeshyLeaf.Position.X - 50);
+                        Game1.LeshyLeaf.ResetPosition(new Vector2(resetX, 1185));
                     }
                     return;
                 }

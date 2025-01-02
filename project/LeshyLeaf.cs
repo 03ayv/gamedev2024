@@ -48,6 +48,14 @@ namespace project
         //tilemanager
         TileManager tileManager;
 
+        //flicker!!
+        private bool isInvulnerable = false;
+        private float invulnerabilityTimer = 0f;
+        private const float INVULNERABILITY_DURATION = 1.0f;
+        private bool isVisible = true;
+        private float flickerInterval = 0.1f;
+        private float flickerTimer = 0f;
+
         public Vector2 Position 
         { 
             get { return position; }
@@ -94,6 +102,27 @@ namespace project
 
         public void Update(GameTime gameTime)
         {
+            //flickering
+            if (isInvulnerable)
+            {
+                invulnerabilityTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                flickerTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                if (flickerTimer >= flickerInterval)
+                {
+                    isVisible = !isVisible;
+                    flickerTimer = 0f;
+                }
+
+                if (invulnerabilityTimer >= INVULNERABILITY_DURATION)
+                {
+                    isInvulnerable = false;
+                    isVisible = true;
+                }
+
+                return; //pause movement during flickering
+            }
+
             var direction = inputReader.ReadInput();
             //direction *= 4; //adjust speed
 
@@ -193,6 +222,8 @@ namespace project
         }
         public void Draw(SpriteBatch spriteBatch)
         {
+            if (!isVisible) return;
+            
             //adjust size (1.0f = original size)
             float scale = 4f;
 
@@ -220,6 +251,14 @@ namespace project
             isFacingRight = true;
             currentAnimation = idle;
         }
+
+        public void StartInvulnerability()
+        {
+            isInvulnerable = true;
+            invulnerabilityTimer = 0f;
+        }
+
+        public bool IsInvulnerable => isInvulnerable;
     }
 }
 
