@@ -252,13 +252,37 @@ namespace project
             currentAnimation = idle;
         }
 
+        //flicker + game pause
         public void StartInvulnerability()
         {
             isInvulnerable = true;
             invulnerabilityTimer = 0f;
+            Game1.PauseGame();
         }
 
         public bool IsInvulnerable => isInvulnerable;
+
+        public void UpdateInvulnerability(GameTime gameTime)
+        {
+            if (isInvulnerable)
+            {
+                invulnerabilityTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                flickerTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                if (flickerTimer >= flickerInterval)
+                {
+                    isVisible = !isVisible;
+                    flickerTimer = 0f;
+                }
+
+                if (invulnerabilityTimer >= INVULNERABILITY_DURATION)
+                {
+                    isInvulnerable = false;
+                    isVisible = true;
+                    Game1.ResumeGame();
+                }
+            }
+        }
     }
 }
 

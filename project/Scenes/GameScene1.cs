@@ -46,18 +46,21 @@ namespace project.Scenes
 
         public override void Update(GameTime gameTime)
         {
-            CheckCollisions();
-            
-            foreach (var enemy in enemies)
+            if (!Game1.IsGamePaused)
             {
-                enemy.Update(gameTime);
-            }
+                CheckCollisions();
+                
+                foreach (var enemy in enemies)
+                {
+                    enemy.Update(gameTime);
+                }
 
-            key?.Update(gameTime);
+                key?.Update(gameTime);
 
-            foreach (var coin in coins)
-            {
-                coin.Update(gameTime);
+                foreach (var coin in coins)
+                {
+                    coin.Update(gameTime);
+                }
             }
         }
 

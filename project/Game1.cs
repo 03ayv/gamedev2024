@@ -80,6 +80,9 @@ namespace project
         public static LivesManager LivesManager { get; private set; }
         private Texture2D heartTexture;
 
+        //add game pause for flickering
+        public static bool IsGamePaused { get; private set; }
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -184,6 +187,12 @@ namespace project
                     sceneManager.LoadScene("Level1");
                     return;
                 }
+                return;
+            }
+
+            if (IsGamePaused)
+            {
+                LeshyLeaf.UpdateInvulnerability(gameTime);
                 return;
             }
 
@@ -398,6 +407,16 @@ namespace project
                 GraphicsDevice.Viewport.Height * 1.9f
             );
             ClampCamera();
+        }
+
+        public static void PauseGame()
+        {
+            IsGamePaused = true;
+        }
+
+        public static void ResumeGame()
+        {
+            IsGamePaused = false;
         }
     }
 }
