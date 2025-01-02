@@ -9,45 +9,51 @@ namespace project.Animations
 {
     public class Animation
     {
-        public AnimationFrame CurrentFrame { get; set; }
         private List<AnimationFrame> frames;
-        private int counter;
-        
-        // track time per frame
-        private float frameTime = 0.1f; // time per frame
-        private float currentFrameTime;
+        private int currentFrameIndex;
+        private float frameTimer;
+        private float frameInterval = 0.1f;
+        private bool shouldLoop;
 
-        private double frameMovement = 0;
-
-        public Animation()
+        public Animation(bool shouldLoop = true)
         {
             frames = new List<AnimationFrame>();
-            currentFrameTime = 0;
+            currentFrameIndex = 0;
+            frameTimer = 0;
+            this.shouldLoop = shouldLoop;
         }
 
-        public void AddFrame(AnimationFrame animationFrame)
+        public void AddFrame(AnimationFrame frame)
         {
-            frames.Add(animationFrame);
-            CurrentFrame = frames[0];
+            frames.Add(frame);
         }
 
         public void Update(GameTime gameTime)
         {
-            currentFrameTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-           
-            if (currentFrameTime >= frameTime)
+            frameTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (frameTimer >= frameInterval)
             {
-                counter++;
-                currentFrameTime = 0;
-
-                if (counter >= frames.Count)
+                frameTimer = 0;
+                if (currentFrameIndex < frames.Count - 1)
                 {
-                    counter = 0;
+                    currentFrameIndex++;
                 }
-
-                CurrentFrame = frames[counter];
+                else if (shouldLoop)
+                {
+                    currentFrameIndex = 0;
+                }
             }
-            
+        }
+
+        public AnimationFrame CurrentFrame
+        {
+            get { return frames[currentFrameIndex]; }
+        }
+
+        public bool IsLastFrame
+        {
+            get { return currentFrameIndex == frames.Count - 1; }
         }
     }
 }

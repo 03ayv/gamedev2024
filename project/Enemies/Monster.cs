@@ -13,8 +13,9 @@ namespace project.Enemies
     public class Monster : IGameObject
     {
         private Texture2D monsterTexture;
-        private Animation walking; 
+        private Animation walking;
         private Animation death;
+        private Animation currentAnimation;
         private Vector2 position;
         private Vector2 speed;
 
@@ -25,7 +26,7 @@ namespace project.Enemies
         private float patrolDistance = 170f;
         private float startX;
 
-        // Add damage and flicker properties
+        //damage & flickering
         private bool isInvulnerable = false;
         private float invulnerabilityTimer = 0f;
         private const float INVULNERABILITY_DURATION = 0.5f;
@@ -34,6 +35,8 @@ namespace project.Enemies
         private float flickerTimer = 0f;
         private const float ATTACK_RANGE = 100f;
         private int health = 3;
+        private bool isDying = false;
+        private bool deathAnimationComplete = false;
 
         public Monster(Texture2D texture, Vector2 startPosition)
         {
@@ -48,7 +51,7 @@ namespace project.Enemies
             walking.AddFrame(new AnimationFrame(new Rectangle(384, 64, 64, 64)));
             walking.AddFrame(new AnimationFrame(new Rectangle(448, 64, 64, 64)));
 
-            death = new Animation();
+            death = new Animation(false);  // Set to not loop
             death.AddFrame(new AnimationFrame(new Rectangle(0, 256, 64, 64)));
             death.AddFrame(new AnimationFrame(new Rectangle(64, 256, 64, 64)));
             death.AddFrame(new AnimationFrame(new Rectangle(128, 256, 64, 64)));
@@ -56,13 +59,27 @@ namespace project.Enemies
             death.AddFrame(new AnimationFrame(new Rectangle(256, 256, 64, 64)));
             death.AddFrame(new AnimationFrame(new Rectangle(320, 256, 64, 64)));
 
+            currentAnimation = walking;
             position = startPosition;
-            startX = startPosition.X; //initial position
+            startX = startPosition.X;
             speed = new Vector2(-1, 0);
         }
 
         public void Update(GameTime gameTime)
         {
+            if (isDying)
+            {
+                if (!deathAnimationComplete)
+                {
+                    death.Update(gameTime);
+                    if (death.IsLastFrame)
+                    {
+                        deathAnimationComplete = true;
+                    }
+                }
+                return;
+            }
+
             if (health > 0)
             {
                 Move();
@@ -103,6 +120,12 @@ namespace project.Enemies
             health--;
             isInvulnerable = true;
             isVisible = false;
+            
+            if (health <= 0)
+            {
+                isDying = true;
+                currentAnimation = death;
+            }
         }
 
         private void UpdateInvulnerability(GameTime gameTime)
@@ -129,11 +152,12 @@ namespace project.Enemies
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (isVisible && health > 0)
+            if (isVisible || isDying)
             {
                 float scale = 3f;
                 var effects = isFacingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-                spriteBatch.Draw(monsterTexture, position, walking.CurrentFrame.SourceRectangle, Color.White, 0f, Vector2.Zero, scale, effects, 0f);
+                spriteBatch.Draw(monsterTexture, position, currentAnimation.CurrentFrame.SourceRectangle, 
+                    Color.White, 0f, Vector2.Zero, scale, effects, 0f);
             }
         }
 

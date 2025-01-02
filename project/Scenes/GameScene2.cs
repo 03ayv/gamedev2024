@@ -127,8 +127,9 @@ namespace project.Scenes
         {
             foreach (var enemy in enemies)
             {
-                if (Game1.LeshyLeaf.GetBounds().Intersects(enemy.GetBounds()))
+                if (!Game1.LeshyLeaf.IsInvulnerable && Game1.LeshyLeaf.GetBounds().Intersects(enemy.GetBounds()))
                 {
+                    Game1.LeshyLeaf.StartInvulnerability();
                     Game1.LivesManager.LoseLife();
                     if (Game1.LivesManager.IsGameOver())
                     {
@@ -136,7 +137,6 @@ namespace project.Scenes
                     }
                     else
                     {
-                        //wait for flickering before resetting position
                         Game1.LeshyLeaf.QueuePositionReset(new Vector2(Math.Max(50, Game1.LeshyLeaf.Position.X - 50), 1185));
                     }
                     return;
