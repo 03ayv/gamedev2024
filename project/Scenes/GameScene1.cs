@@ -155,43 +155,9 @@ namespace project.Scenes
 
         protected override void CheckCollisions()
         {
-            //check enemy collision
-            foreach (var enemy in enemies)
-            {
-                if (!Game1.LeshyLeaf.IsInvulnerable && Game1.LeshyLeaf.GetBounds().Intersects(enemy.GetBounds()))
-                {
-                    Game1.LeshyLeaf.StartInvulnerability();
-                    Game1.LivesManager.LoseLife();
-                    if (Game1.LivesManager.IsGameOver())
-                    {
-                        Game1.GameOver = true;
-                    }
-                    else
-                    {
-                        //wait for flickering before resetting position
-                        Game1.LeshyLeaf.QueuePositionReset(new Vector2(Math.Max(50, Game1.LeshyLeaf.Position.X - 50),1185));
-                    }
-                    return;
-                }
-            }
-
-            //check coin collision
-            for (int i = coins.Count - 1; i >= 0; i--)
-            {
-                if (!coins[i].IsCollected() && Game1.LeshyLeaf.GetBounds().Intersects(coins[i].GetBounds()))
-                {
-                    coins[i].Collect();
-                    Game1.ScoreManager.AddPoints(10);
-                }
-            }
-
-            //check key collision
-            if (key != null && Game1.LeshyLeaf.GetBounds().Intersects(key.GetBounds()))
-            {
-                key.Collect();
-                Game1.LevelManager.StartTransition();
-            }
-
+            collisionManager.CheckEnemyCollisions(enemies);
+            collisionManager.CheckCoinCollisions(coins);
+            collisionManager.CheckKeyCollision(key);
         }
         //wait for flickering before resetting position
 

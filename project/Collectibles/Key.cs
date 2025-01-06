@@ -5,7 +5,7 @@ using project.Interfaces;
 
 namespace project.Collectibles
 {
-    public class Key : ICollectible
+    public class Key : IGameObject, ICollectible
     {
         private Texture2D keyTexture;
         private Animation idle;

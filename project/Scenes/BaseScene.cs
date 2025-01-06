@@ -27,6 +27,7 @@ namespace project.Scenes
         protected const int TILE_HEIGHT = 16;
         protected const float SCALE = 5f;
 
+        protected CollisionManager collisionManager;
 
         public BaseScene(GraphicsDevice graphicsDevice, ContentManager content)
         {
@@ -35,6 +36,7 @@ namespace project.Scenes
             
             enemies = new List<IGameObject>();
             coins = new List<Coin>();
+            collisionManager = new CollisionManager();
         }
 
         public void SetSpriteBatch(SpriteBatch spriteBatch)

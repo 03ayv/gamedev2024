@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace project.Collectibles
 {
-    public class Gold : ICollectible
+    public class Gold : IGameObject, ICollectible
     {
         private Texture2D goldTexture;
         private Animation idle;

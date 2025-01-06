@@ -451,5 +451,11 @@ namespace project
                 victoryScene.Show(score);
             }
         }
+
+        public void TransitionToScene(string sceneName)
+        {
+            LevelManager.StartTransition();  // This triggers HandleLevelTransition
+            IsGamePaused = true;  // Pause game during transition
+        }
     }
 }

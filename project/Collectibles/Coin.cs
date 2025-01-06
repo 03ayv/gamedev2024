@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace project.Collectibles
 {
-    public class Coin : ICollectible
+    public class Coin : IGameObject,ICollectible
     {
         private Texture2D coinTexture;
         private Animation idle;
